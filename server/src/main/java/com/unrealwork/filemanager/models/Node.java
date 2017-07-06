@@ -1,7 +1,9 @@
 package com.unrealwork.filemanager.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.unrealwork.filemanager.exceptions.DuplicateChildContentException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -56,13 +58,31 @@ public class Node {
    * @param child - instance of {@link Node}.
    */
   public void add(Node child) {
+    child.setParent(this);
     if (!children.contains(child)) {
       children.add(child);
-      child.setParent(this);
     } else {
       log.error("Duplicate Node {}", child);
-      throw new IllegalStateException("Duplicate Node");
+      throw new DuplicateChildContentException(child);
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Node)) {
+      return false;
+    }
+    Node node = (Node) o;
+    return Objects.equals(getContent(), node.getContent()) &&
+        Objects.equals(getParent(), node.getParent());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getContent(), getParent());
   }
 
   /**

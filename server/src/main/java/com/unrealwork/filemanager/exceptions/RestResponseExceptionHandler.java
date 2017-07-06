@@ -53,4 +53,22 @@ public class RestResponseExceptionHandler {
     String errorUrl = req.getRequestURL().toString();
     return new ErrorInfo(errorUrl, errorMessage);
   }
+
+  /**
+   * Describes how to handle {@link NumberFormatException}.
+   *
+   * @param req - request
+   * @param ex - thrown exception
+   */
+  @ExceptionHandler({DuplicateChildContentException.class})
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErrorInfo duplicateChildContent(HttpServletRequest req,
+      DuplicateChildContentException ex) {
+    Locale locale = LocaleContextHolder.getLocale();
+    String errorMessage = messageSource.getMessage("error.duplicate.child.content", null, locale);
+    errorMessage += ex.getNode().getContent();
+    String errorUrl = req.getRequestURL().toString();
+    return new ErrorInfo(errorUrl, errorMessage);
+  }
 }

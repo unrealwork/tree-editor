@@ -60,8 +60,8 @@ public class NodeService {
    */
   public Node add(Long id, Description content) {
     //TODO: atocmic operation
-    Node node = getOne(id);
     descriptionRepository.save(content);
+    Node node = getOne(id);
     Node newNode = new Node(content);
     node.add(newNode);
     nodeRepository.save(newNode);
