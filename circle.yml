@@ -8,5 +8,4 @@ machine:
       SERVER_SOURCE: server
 test:
   override:
-    - cd $SERVER_SOURCE
-    - mvn clean test
+    - cd $SERVER_SOURCE && mvn clean test
