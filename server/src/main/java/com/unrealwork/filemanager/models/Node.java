@@ -11,23 +11,28 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children"})
 public class Node {
 
   @OneToOne
+  @Getter
   protected Description content;
   @OneToMany
+  @Getter
   protected Set<Node> children;
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+  @Getter
+  @Setter
   protected Node parent;
   @Id
   @GeneratedValue
+  @Getter
   private Long id;
 
   public Node() {
