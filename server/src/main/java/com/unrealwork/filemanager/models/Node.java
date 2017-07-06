@@ -1,22 +1,45 @@
 package com.unrealwork.filemanager.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public @Data
-class Node<T> {
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
+public class Node {
 
-  private Node<T> parent;
-  private T content;
-  private Set<Node<T>> children;
+  @OneToOne
+  protected Description content;
+  @OneToMany
+  protected Set<Node> children;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+  protected Node parent;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-  private Node() {
+  public Node() {
+
   }
 
-  public Node(T content) {
+  /**
+   * Create a Node instance with specified content.
+   *
+   * @param content - {@link Description} class' instance
+   */
+  public Node(Description content) {
     this.content = content;
     children = new HashSet<>();
     log.debug("Node with the value {} was created!", content);
@@ -27,7 +50,7 @@ class Node<T> {
    *
    * @param child - instance of {@link Node}.
    */
-  public void add(Node<T> child) {
+  public void add(Node child) {
     if (!children.contains(child)) {
       children.add(child);
       child.setParent(this);
@@ -42,7 +65,7 @@ class Node<T> {
    *
    * @param child - {@link Node} link to child instance.
    */
-  public Node<T> remove(Node<T> child) {
+  public Node remove(Node child) {
     if (children.contains(child)) {
       children.remove(child);
       return child;
