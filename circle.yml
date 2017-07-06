@@ -1,0 +1,11 @@
+machine:
+  timezone:
+      America/Los_Angeles
+  java:
+    version: openjdk8
+
+  environment:
+      SERVER_SOURCE: server
+test:
+  override:
+    - cd $SERVER_SOURCE && mvn clean test
