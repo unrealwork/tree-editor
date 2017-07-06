@@ -1,5 +1,7 @@
 package com.unrealwork.filemanager.api;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
 import com.unrealwork.filemanager.services.NodeService;
@@ -8,7 +10,6 @@ import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,14 +30,14 @@ public class NodeController {
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "{id}",
-      produces = MediaType.APPLICATION_JSON_VALUE)
+      produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<Node> getNode(@PathVariable Long id) {
     Node node = nodeService.getOne(id);
     return new ResponseEntity<>(node, HttpStatus.OK);
   }
 
   @RequestMapping(method = RequestMethod.GET, path = "{id}/children",
-      produces = MediaType.APPLICATION_JSON_VALUE)
+      produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<Collection<Node>> getChildren(@PathVariable Long id) {
     Collection<Node> children = nodeService.getChildren(id);
     return new ResponseEntity<>(children, HttpStatus.OK);
@@ -50,11 +51,50 @@ public class NodeController {
    * @return new node if success.
    */
   @RequestMapping(method = RequestMethod.PUT, path = "{id}",
-      produces = MediaType.APPLICATION_JSON_VALUE,
-      consumes = MediaType.APPLICATION_JSON_VALUE
+      produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE
   )
   public ResponseEntity<Node> add(@PathVariable Long id, @Valid @RequestBody Description content) {
     Node newNode = nodeService.add(id, content);
     return new ResponseEntity<>(newNode, HttpStatus.OK);
+  }
+
+  /**
+   * Remove node with specified id
+   *
+   * @param id - parent's node id
+   * @return new node if success.
+   */
+  @RequestMapping(method = RequestMethod.DELETE, path = "{id}")
+  public ResponseEntity<Node> remove(@PathVariable Long id) {
+    Node removedNode = nodeService.remove(id);
+    return new ResponseEntity<>(removedNode, HttpStatus.OK);
+  }
+
+  /**
+   * Retrieve collection with all nodes.
+   *
+   * @return collection of nodes
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<Collection<Node>> list() {
+    Collection<Node> removedNode = nodeService.list();
+    return new ResponseEntity<>(removedNode, HttpStatus.OK);
+  }
+
+
+  /**
+   * Update content with node with specified description to children
+   *
+   * @param id - parent's node id
+   * @param content - {@link Description} instance.
+   * @return new node if success.
+   */
+  @RequestMapping(method = RequestMethod.POST, path = "{id}",
+      produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Node> update(@PathVariable Long id,
+      @Valid @RequestBody Description content) {
+    Node updatedNode = nodeService.update(id, content);
+    return new ResponseEntity<>(updatedNode, HttpStatus.OK);
   }
 }

@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -25,10 +24,10 @@ public class Node {
   @OneToOne
   @Getter
   protected Description content;
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @Getter
   protected Set<Node> children;
-  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @Getter
   @Setter
   protected Node parent;
@@ -38,7 +37,6 @@ public class Node {
   private Long id;
 
   public Node() {
-
   }
 
   /**
@@ -76,8 +74,8 @@ public class Node {
       return false;
     }
     Node node = (Node) o;
-    return Objects.equals(getContent(), node.getContent()) &&
-        Objects.equals(getParent(), node.getParent());
+    return Objects.equals(getContent(), node.getContent())
+        && Objects.equals(getParent(), node.getParent());
   }
 
   @Override
@@ -86,16 +84,37 @@ public class Node {
   }
 
   /**
+   * Is node root.
+   *
+   * @return true if root
+   */
+  public boolean isRoot() {
+    return parent == null;
+  }
+
+  /**
    * Remove specified child.
    *
    * @param child - {@link Node} link to child instance.
    */
   public Node remove(Node child) {
-    if (children.contains(child)) {
+    if (children != null && children.contains(child)) {
       children.remove(child);
       return child;
     }
     log.error("The folder doesn't have following child {}.", child);
     throw new IllegalStateException("The folder doesn't have following child");
+  }
+
+
+  /**
+   * Check that node has sibling with the same content.
+   *
+   * @param content content to check.
+   * @return true if does.
+   */
+  public boolean hasSibling(Description content) {
+    return !isRoot() || parent.children.stream()
+        .anyMatch(node -> node.getContent().equals(content));
   }
 }

@@ -2,7 +2,9 @@ package com.unrealwork.filemanager.services;
 
 import com.unrealwork.filemanager.daos.DescriptionRepository;
 import com.unrealwork.filemanager.daos.NodeRepository;
+import com.unrealwork.filemanager.exceptions.DuplicateChildContentException;
 import com.unrealwork.filemanager.exceptions.NodeNotFoundException;
+import com.unrealwork.filemanager.exceptions.RootNodeModificationException;
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
 import java.util.Collection;
@@ -41,6 +43,15 @@ public class NodeService {
 
 
   /**
+   * Retrieve collection with all nodes.
+   *
+   * @return nodes
+   */
+  public Collection<Node> list() {
+    return nodeRepository.findAll();
+  }
+
+  /**
    * Retrieve collection of children.
    *
    * @param id -{@link Long} id value
@@ -67,5 +78,47 @@ public class NodeService {
     nodeRepository.save(newNode);
     nodeRepository.save(node);
     return newNode;
+  }
+
+
+  /**
+   * Remove node with specified if.
+   *
+   * @param id - id of existing node
+   * @return instance of removed node.
+   */
+  public Node remove(Long id) {
+    //TODO: atocmic operation
+    Node node = getOne(id);
+    if (node.isRoot()) {
+      throw new RootNodeModificationException();
+    }
+    Node parentNode = node.getParent();
+    node = parentNode.remove(node);
+    nodeRepository.delete(node);
+    descriptionRepository.delete(node.getContent());
+    nodeRepository.save(parentNode);
+    return node;
+  }
+
+  /**
+   * Update node's content.
+   *
+   * @param id - node's id.
+   * @param content - new content.
+   * @return updatedNode.
+   */
+  public Node update(Long id, Description content) {
+    Node node = getOne(id);
+    if (node.isRoot()) {
+      throw new RootNodeModificationException();
+    }
+    if (node.hasSibling(content)) {
+      throw new DuplicateChildContentException(node);
+    }
+    Description existingContent = node.getContent();
+    existingContent.setName(content.getName());
+    descriptionRepository.save(existingContent);
+    return node;
   }
 }

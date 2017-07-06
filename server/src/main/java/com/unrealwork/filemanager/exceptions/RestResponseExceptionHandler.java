@@ -71,4 +71,21 @@ public class RestResponseExceptionHandler {
     String errorUrl = req.getRequestURL().toString();
     return new ErrorInfo(errorUrl, errorMessage);
   }
+
+  /**
+   * Describes how to handle {@link NumberFormatException}.
+   *
+   * @param req - request
+   * @param ex - thrown exception
+   */
+  @ExceptionHandler({RootNodeModificationException.class})
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErrorInfo rootModification(HttpServletRequest req,
+      RootNodeModificationException ex) {
+    Locale locale = LocaleContextHolder.getLocale();
+    String errorMessage = messageSource.getMessage("error.root.modification", null, locale);
+    String errorUrl = req.getRequestURL().toString();
+    return new ErrorInfo(errorUrl, errorMessage);
+  }
 }

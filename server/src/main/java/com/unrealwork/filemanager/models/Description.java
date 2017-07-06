@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Entity
 @Data
@@ -18,7 +19,7 @@ public class Description {
   @Getter
   private Long id;
   @Getter
-
+  @NonNull
   private String name;
 
   Description() {
