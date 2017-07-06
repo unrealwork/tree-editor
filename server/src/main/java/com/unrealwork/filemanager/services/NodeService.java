@@ -5,12 +5,14 @@ import com.unrealwork.filemanager.daos.NodeRepository;
 import com.unrealwork.filemanager.exceptions.DuplicateChildContentException;
 import com.unrealwork.filemanager.exceptions.NodeNotFoundException;
 import com.unrealwork.filemanager.exceptions.RootNodeModificationException;
+import com.unrealwork.filemanager.exceptions.SelfMovementException;
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -69,6 +71,7 @@ public class NodeService {
    * @param content - instance of {@link Description} class.
    * @return instance of new node.
    */
+  @Transactional
   public Node add(Long id, Description content) {
     //TODO: atocmic operation
     descriptionRepository.save(content);
@@ -87,6 +90,7 @@ public class NodeService {
    * @param id - id of existing node
    * @return instance of removed node.
    */
+  @Transactional
   public Node remove(Long id) {
     //TODO: atocmic operation
     Node node = getOne(id);
@@ -108,17 +112,44 @@ public class NodeService {
    * @param content - new content.
    * @return updatedNode.
    */
+  @Transactional
   public Node update(Long id, Description content) {
     Node node = getOne(id);
     if (node.isRoot()) {
       throw new RootNodeModificationException();
     }
     if (node.hasSibling(content)) {
-      throw new DuplicateChildContentException(node);
+      throw new DuplicateChildContentException(content);
     }
     Description existingContent = node.getContent();
     existingContent.setName(content.getName());
     descriptionRepository.save(existingContent);
     return node;
+  }
+
+  /**
+   * Move node with specified id to node with destId.
+   *
+   * @param id - source node's id.
+   * @param destId - destination node's id.
+   * @return - moved node.
+   */
+  @Transactional
+  public Node move(Long id, Long destId) {
+    Node srcNode = getOne(id);
+    Node destNode = getOne(destId);
+    if (srcNode.isDescendant(destNode)) {
+      throw new SelfMovementException();
+    }
+    Description sourceContent = srcNode.getContent();
+    if (destNode.hasChild(sourceContent)) {
+      throw new DuplicateChildContentException(sourceContent);
+    }
+    Node parent = srcNode.getParent();
+    parent.remove(srcNode);
+    nodeRepository.save(parent);
+    destNode.add(srcNode);
+    nodeRepository.save(destNode);
+    return srcNode;
   }
 }

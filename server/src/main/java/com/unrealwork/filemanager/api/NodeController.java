@@ -92,9 +92,25 @@ public class NodeController {
   @RequestMapping(method = RequestMethod.POST, path = "{id}",
       produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE
   )
-  public ResponseEntity<Node> update(@PathVariable Long id,
+  public ResponseEntity<Node> move(@PathVariable Long id,
       @Valid @RequestBody Description content) {
     Node updatedNode = nodeService.update(id, content);
+    return new ResponseEntity<>(updatedNode, HttpStatus.OK);
+  }
+
+  /**
+   * Copy node with specified id to node with another id
+   *
+   * @param id - source node id.
+   * @param destId - id of destination node .
+   * @return new node if success.
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "{id}/move/{destId}",
+      produces = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Node> move(@PathVariable Long id,
+      @PathVariable Long destId) {
+    Node updatedNode = nodeService.move(id, destId);
     return new ResponseEntity<>(updatedNode, HttpStatus.OK);
   }
 }

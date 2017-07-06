@@ -1,14 +1,13 @@
 package com.unrealwork.filemanager.exceptions;
 
-import com.unrealwork.filemanager.models.Node;
+import com.unrealwork.filemanager.models.Description;
 import lombok.Getter;
 
 public class DuplicateChildContentException extends RuntimeException {
-
   @Getter
-  private final Node node;
+  private final Description content;
 
-  public DuplicateChildContentException(Node node) {
-    this.node = node;
+  public DuplicateChildContentException(Description content) {
+    this.content = content;
   }
 }

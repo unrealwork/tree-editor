@@ -67,7 +67,7 @@ public class RestResponseExceptionHandler {
       DuplicateChildContentException ex) {
     Locale locale = LocaleContextHolder.getLocale();
     String errorMessage = messageSource.getMessage("error.duplicate.child.content", null, locale);
-    errorMessage += ex.getNode().getContent();
+    errorMessage += ex.getContent();
     String errorUrl = req.getRequestURL().toString();
     return new ErrorInfo(errorUrl, errorMessage);
   }
@@ -85,6 +85,23 @@ public class RestResponseExceptionHandler {
       RootNodeModificationException ex) {
     Locale locale = LocaleContextHolder.getLocale();
     String errorMessage = messageSource.getMessage("error.root.modification", null, locale);
+    String errorUrl = req.getRequestURL().toString();
+    return new ErrorInfo(errorUrl, errorMessage);
+  }
+
+  /**
+   * Describes how to handle {@link SelfMovementException}.
+   *
+   * @param req - request
+   * @param ex - thrown exception
+   */
+  @ExceptionHandler({SelfMovementException.class})
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErrorInfo selfMovement(HttpServletRequest req,
+      SelfMovementException ex) {
+    Locale locale = LocaleContextHolder.getLocale();
+    String errorMessage = messageSource.getMessage("error.self.movement", null, locale);
     String errorUrl = req.getRequestURL().toString();
     return new ErrorInfo(errorUrl, errorMessage);
   }

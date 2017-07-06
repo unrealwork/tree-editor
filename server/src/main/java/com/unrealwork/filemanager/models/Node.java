@@ -61,7 +61,7 @@ public class Node {
       children.add(child);
     } else {
       log.error("Duplicate Node {}", child);
-      throw new DuplicateChildContentException(child);
+      throw new DuplicateChildContentException(child.getContent());
     }
   }
 
@@ -116,5 +116,31 @@ public class Node {
   public boolean hasSibling(Description content) {
     return !isRoot() || parent.children.stream()
         .anyMatch(node -> node.getContent().equals(content));
+  }
+
+  public boolean hasChild(Description content) {
+    return children.stream()
+        .anyMatch(node -> node.getContent().equals(content));
+  }
+
+  /**
+   * Is node descendant of this node.
+   *
+   * @param node - node to check.
+   * @return true if is.
+   */
+  public boolean isDescendant(Node node) {
+    Node iterate = node;
+    while (!iterate.isRoot()) {
+      if (iterate == this) {
+        return true;
+      }
+      iterate = iterate.parent;
+    }
+    return false;
+  }
+
+  public boolean isTerminal() {
+    return children.isEmpty();
   }
 }
