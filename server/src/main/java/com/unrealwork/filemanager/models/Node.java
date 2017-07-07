@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ public class Node {
   @OneToMany(cascade = CascadeType.ALL)
   @Getter
   protected Set<Node> children;
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @Getter
   @Setter
   protected Node parent;
@@ -114,8 +115,8 @@ public class Node {
    * @return true if does.
    */
   public boolean hasSibling(Description content) {
-    return !isRoot() || parent.children.stream()
-        .anyMatch(node -> node.getContent().equals(content));
+    return !isRoot() && parent.getChildren().stream()
+        .anyMatch(node -> node != this && node.getContent().equals(content));
   }
 
   public boolean hasChild(Description content) {
@@ -138,6 +139,13 @@ public class Node {
       iterate = iterate.parent;
     }
     return false;
+  }
+
+  /**
+   * Remove all children.
+   */
+  public void removeAll() {
+    children.clear();
   }
 
   public boolean isTerminal() {
