@@ -73,7 +73,6 @@ public class NodeService {
    */
   @Transactional
   public Node add(Long id, Description content) {
-    //TODO: atocmic operation
     descriptionRepository.save(content);
     Node node = getOne(id);
     Node newNode = new Node(content);
@@ -138,6 +137,9 @@ public class NodeService {
   public Node move(Long id, Long destId) {
     Node srcNode = getOne(id);
     Node destNode = getOne(destId);
+    if (srcNode.isRoot()) {
+      throw new RootNodeModificationException();
+    }
     if (srcNode.isDescendant(destNode)) {
       throw new SelfMovementException();
     }
@@ -151,5 +153,17 @@ public class NodeService {
     destNode.add(srcNode);
     nodeRepository.save(destNode);
     return srcNode;
+  }
+
+
+  /**
+   * Remove all node except root.
+   */
+  @Transactional
+  public void clear() {
+    Node root = getOne(1L);
+    nodeRepository.delete(root.getChildren());
+    root.removeAll();
+    nodeRepository.save(root);
   }
 }

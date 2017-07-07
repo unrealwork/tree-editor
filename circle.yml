@@ -9,3 +9,5 @@ machine:
 test:
   override:
     - cd $SERVER_SOURCE && mvn clean test
+    - cd $SERVER_SOURCE && mvn jacoco:report
+    - cd $SERVER_SOURCE &&  bash <(curl -s https://codecov.io/bash)
