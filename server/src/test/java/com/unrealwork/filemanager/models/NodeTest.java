@@ -1,9 +1,10 @@
 package com.unrealwork.filemanager.models;
 
-import static org.testng.Assert.assertEquals;
+
+import static org.junit.Assert.assertEquals;
 
 import lombok.val;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class NodeTest {
 

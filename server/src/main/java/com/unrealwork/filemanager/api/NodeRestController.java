@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController(value = "node")
 @RequestMapping(path = "/nodes")
 @Slf4j
-public class NodeController {
+public class NodeRestController {
 
   private NodeService nodeService;
 
   @Autowired
-  public NodeController(NodeService nodeService) {
+  public NodeRestController(NodeService nodeService) {
     this.nodeService = nodeService;
   }
 
@@ -55,7 +55,7 @@ public class NodeController {
   )
   public ResponseEntity<Node> add(@PathVariable Long id, @Valid @RequestBody Description content) {
     Node newNode = nodeService.add(id, content);
-    return new ResponseEntity<>(newNode, HttpStatus.OK);
+    return new ResponseEntity<>(newNode, HttpStatus.CREATED);
   }
 
   /**
@@ -71,18 +71,6 @@ public class NodeController {
   }
 
   /**
-   * Retrieve collection with all nodes.
-   *
-   * @return collection of nodes
-   */
-  @RequestMapping(method = RequestMethod.GET, path = "", produces = APPLICATION_JSON_VALUE)
-  public ResponseEntity<Collection<Node>> list() {
-    Collection<Node> removedNode = nodeService.list();
-    return new ResponseEntity<>(removedNode, HttpStatus.OK);
-  }
-
-
-  /**
    * Update content with node with specified description to children
    *
    * @param id - parent's node id
@@ -92,10 +80,21 @@ public class NodeController {
   @RequestMapping(method = RequestMethod.POST, path = "{id}",
       produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE
   )
-  public ResponseEntity<Node> move(@PathVariable Long id,
+  public ResponseEntity<Node> update(@PathVariable Long id,
       @Valid @RequestBody Description content) {
     Node updatedNode = nodeService.update(id, content);
     return new ResponseEntity<>(updatedNode, HttpStatus.OK);
+  }
+
+  /**
+   * Retrieve collection with all nodes.
+   *
+   * @return collection of nodes
+   */
+  @RequestMapping(method = RequestMethod.GET, path = "", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<Collection<Node>> list() {
+    Collection<Node> removedNode = nodeService.list();
+    return new ResponseEntity<>(removedNode, HttpStatus.OK);
   }
 
   /**
