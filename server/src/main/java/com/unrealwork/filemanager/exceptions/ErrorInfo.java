@@ -6,10 +6,10 @@ import lombok.Data;
 class ErrorInfo {
 
   private String url;
-  private String errorMessage;
+  private String message;
 
-  ErrorInfo(String errorUrl, String errorMessage) {
+  ErrorInfo(String errorUrl, String message) {
     this.url = errorUrl;
-    this.errorMessage = errorMessage;
+    this.message = message;
   }
 }
