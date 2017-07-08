@@ -119,6 +119,18 @@ public class Node {
         .anyMatch(node -> node != this && node.getContent().equals(content));
   }
 
+  public int getLevel() {
+    //TODO: optimize;
+    int level = 0;
+    Node it = this;
+    while (it.parent != null) {
+      level++;
+      it = it.parent;
+    }
+    return level;
+  }
+
+
   public boolean hasChild(Description content) {
     return children.stream()
         .anyMatch(node -> node.getContent().equals(content));
