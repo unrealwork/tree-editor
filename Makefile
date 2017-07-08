@@ -15,7 +15,6 @@ pack:
 	cp ./server/target/*.tar.gz ./build
 
 deps:
-	sudo apt install nodejs
 	if [ -d "./client/" ]; then cd ./client && npm install; fi
 
 clean:
