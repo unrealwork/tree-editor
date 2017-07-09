@@ -15,6 +15,7 @@ pack:
 	cp ./server/target/*.tar.gz ./build
 
 deps:
+	echo $(which mvn)
 	if [ -d "./client/" ]; then cd ./client && npm install; fi
 
 clean:
