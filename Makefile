@@ -9,7 +9,7 @@ all:
 	make clean deps pack
 
 pack:
-	if [ -d "./client/" ]; then cd ./client && npm run build; fi
+	#if [ -d "./client/" ]; then cd ./client && npm run build; fi
 	cd ./server && mvn package
 	if [ ! -d "./build" ]; then mkdir ./build; fi
 	cp ./server/target/*.tar.gz ./build
