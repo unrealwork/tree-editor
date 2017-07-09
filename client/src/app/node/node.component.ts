@@ -22,7 +22,7 @@ export class NodeComponent implements OnInit {
   }
 
   private refresh() {
-    this.node = this.api.get(this.id);
+    this.node = (this.id) ? this.api.get(this.id) : this.api.root();
     this.node.then(node => {
       this.children = this.api.children(node.id);
     });

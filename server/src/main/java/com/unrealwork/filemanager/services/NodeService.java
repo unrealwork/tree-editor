@@ -5,12 +5,15 @@ import com.unrealwork.filemanager.daos.NodeRepository;
 import com.unrealwork.filemanager.exceptions.DuplicateChildContentException;
 import com.unrealwork.filemanager.exceptions.NodeNotFoundException;
 import com.unrealwork.filemanager.exceptions.RootNodeModificationException;
+import com.unrealwork.filemanager.exceptions.RootNotFoundException;
 import com.unrealwork.filemanager.exceptions.SelfMovementException;
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,24 @@ public class NodeService {
       DescriptionRepository descriptionRepository) {
     this.nodeRepository = nodeRepository;
     this.descriptionRepository = descriptionRepository;
+  }
+
+  /**
+   * Retrieve root node.
+   *
+   * @return root node instance.
+   * @throws RootNotFoundException if root node is not presented.
+   */
+  public Node root() throws RootNotFoundException {
+    Node rootNode = nodeRepository.findOne(Example.of(new Node(), ExampleMatcher
+        .matching()
+        .withIncludeNullValues()
+        .withIgnorePaths("id", "content", "children"))
+    );
+    if (rootNode == null) {
+      throw new RootNotFoundException();
+    }
+    return rootNode;
   }
 
   /**
@@ -91,7 +112,6 @@ public class NodeService {
    */
   @Transactional
   public Node remove(Long id) {
-    //TODO: atocmic operation
     Node node = getOne(id);
     if (node.isRoot()) {
       throw new RootNodeModificationException();
@@ -161,7 +181,7 @@ public class NodeService {
    */
   @Transactional
   public void clear() {
-    Node root = getOne(1L);
+    Node root = root();
     nodeRepository.delete(root.getChildren());
     root.removeAll();
     nodeRepository.save(root);

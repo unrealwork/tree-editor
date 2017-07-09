@@ -11,3 +11,9 @@ test:
     - cd $SERVER_SOURCE && mvn -Dspring.profiles.active=dev test
     - cd $SERVER_SOURCE && mvn jacoco:report
     - cd $SERVER_SOURCE &&  bash <(curl -s https://codecov.io/bash)
+
+deployment:
+  production: # just a label; label names are completely up to you
+    branch: master
+    commands:
+      - make deploy
