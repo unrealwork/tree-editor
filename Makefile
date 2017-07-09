@@ -15,7 +15,6 @@ pack:
 	cp ./server/target/*.jar ./build
 
 deps:
-	echo $(which mvn)
 	if [ -d "./client/" ]; then cd ./client && npm install; fi
 
 clean:

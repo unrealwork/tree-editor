@@ -3,9 +3,18 @@ machine:
       America/Los_Angeles
   java:
     version: openjdk8
+  node:
+      version: 0.10.22
+
 
   environment:
       SERVER_SOURCE: server
+
+dependencies:
+  override:
+    - make deps
+
+
 test:
   override:
     - cd $SERVER_SOURCE && mvn -Dspring.profiles.active=dev test
@@ -16,4 +25,4 @@ deployment:
   production: # just a label; label names are completely up to you
     branch: master
     commands:
-      - make deploy
+      - make && make deploy
