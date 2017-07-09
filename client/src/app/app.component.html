@@ -1,3 +1,6 @@
-<div>
-  <app-node></app-node>
+<div class="ui container">
+  <app-control-panel *ngIf="isSelected"></app-control-panel>
+  <div class="ui vertical menu fluid">
+    <app-node></app-node>
+  </div>
 </div>

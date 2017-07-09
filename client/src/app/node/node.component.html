@@ -1,16 +1,16 @@
-<div class="node">
-  <i (click)="toggle()"
-     [ngClass]="{'down': isOpen, 'right': !isOpen, 'caret': !(node | async)?.terminal}"
-     class="icon"></i>
-  <i [ngClass]="{'open': isOpen}" class="folder outline icon"></i>
-  {{(node | async)?.content.name}}
-</div>
-<div *ngIf="isOpen">
-  <div *ngFor="let item of (children | async)">
-    <i class="icon empty" *ngFor="let item of ((node | async)?.level +1) | fill"></i>
-    <app-node [id]="item.id">
-    </app-node>
+<a (click)="select()" class="item" [ngClass]="{'active' : isSelected}">
+  <div>
+    <i class="icon large empty" *ngFor="let item of ((node | async)?.level) | fill"></i>
+    <i (click)="toggle()"
+       [ngClass]="{'down': isOpen, 'right': !isOpen, 'dropdown': !(node | async)?.terminal}"
+       class="icon"></i>
+    <i [ngClass]="{'open': isOpen}" class="icon large folder outline"></i>
+    {{(node | async)?.content.name}}
   </div>
-</div>
+</a>
+<ng-container *ngIf="isOpen">
+  <app-node [id]="item.id" *ngFor="let item of (children | async)">
+  </app-node>
+</ng-container>
 
 

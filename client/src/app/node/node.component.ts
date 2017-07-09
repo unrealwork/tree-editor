@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {Node} from '../models/node.model';
+import {SelectionService} from '../services/selection.service';
 
 @Component({
   selector: 'app-node',
@@ -14,7 +15,7 @@ export class NodeComponent implements OnInit {
   isOpen = false;
   isSelected = false;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private selectionService: SelectionService) {
   }
 
   ngOnInit() {
@@ -26,6 +27,11 @@ export class NodeComponent implements OnInit {
     this.node.then(node => {
       this.children = this.api.children(node.id);
     });
+  }
+
+  select() {
+    this.isSelected = true;
+    this.selectionService.update(this);
   }
 
   toggle() {
