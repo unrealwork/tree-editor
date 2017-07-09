@@ -2,8 +2,10 @@ package com.unrealwork.filemanager;
 
 import com.unrealwork.filemanager.daos.DescriptionRepository;
 import com.unrealwork.filemanager.daos.NodeRepository;
+import com.unrealwork.filemanager.exceptions.RootNotFoundException;
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
+import com.unrealwork.filemanager.services.NodeService;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -18,19 +20,25 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Slf4j
 public class Application {
 
+  public static final Node ROOT_NODE = new Node(new Description("/"));
+
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
   }
 
   @Bean
   CommandLineRunner init(NodeRepository nodeRepository,
-      DescriptionRepository descriptionRepository) {
+      DescriptionRepository descriptionRepository, NodeService nodeService) {
     return (args) -> {
-      Description content = new Description("/");
-      descriptionRepository.save(content);
-      Node rootElement = new Node(content);
-      nodeRepository.save(rootElement);
-      log.info("Root element created {}", rootElement);
+      try {
+        Node rootNode = nodeService.root();
+        log.info("Root node loaded from DB {}", rootNode);
+      } catch (RootNotFoundException e) {
+        descriptionRepository.save(ROOT_NODE.getContent());
+        nodeRepository.save(ROOT_NODE);
+        log.info("Start with new empty root node {}", ROOT_NODE);
+      }
+
     };
   }
 

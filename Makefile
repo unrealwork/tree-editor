@@ -12,7 +12,7 @@ pack:
 	if [ -d "./client/" ]; then cd ./client && npm run build; fi
 	cd ./server && mvn -Dspring.profiles.active=dev clean package
 	if [ ! -d "./build" ]; then mkdir ./build; fi
-	cp ./server/target/*.tar.gz ./build
+	cp ./server/target/*.jar ./build
 
 deps:
 	echo $(which mvn)
@@ -24,6 +24,9 @@ clean:
 install:
 	cd ./build && if [ ! -d "tree-editor" ]; then mkdir tree-editor; fi && \
 	 tar -xvf tree-editor-rest-service-*-bin.tar.gz --strip 1 -C ./tree-editor
-start:
-	./build/tree-editor/start.sh
 
+start:
+	java -jar -Dspring.profiles.active=dev ./build/tree-editor*.jar
+
+deploy:
+	cd ./server && mvn -Dmaven.test.skip=true -Dspring.profiles.active=dev heroku:deploy

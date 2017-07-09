@@ -11,6 +11,19 @@ export class ApiService {
   constructor(private http: Http) {
   }
 
+
+  /**
+   * Retrieve node by specified id.
+   * @param id - id.
+   * @returns {Promise<any>} - promise with node
+   */
+  public root(): Promise<Node> {
+    return this.http.get(`${this.nodesUrl}root`)
+    .toPromise()
+    .then(response => response.json() as Node)
+    .catch(this.handleError);
+  }
+
   /**
    * Retrieve node by specified id.
    * @param id - id.

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children", "parent"})
 public class Node {
 
   @OneToOne
@@ -119,6 +119,11 @@ public class Node {
         .anyMatch(node -> node != this && node.getContent().equals(content));
   }
 
+  /**
+   * Calc node level.
+   *
+   * @return level value > 0
+   */
   public int getLevel() {
     //TODO: optimize;
     int level = 0;

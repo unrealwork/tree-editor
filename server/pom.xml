@@ -78,6 +78,21 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <version>1.1.3</version>
+        <configuration>
+          <appName>tree-editor</appName>
+          <includeTarget>false</includeTarget>
+          <includes>
+            <include>target/*.jar</include>
+          </includes>
+          <processTypes>
+            <web>java $JAVA_OPTS -jar target/tree-editor-rest-service-0.0.1.jar</web>
+          </processTypes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.7.7.201606060606</version>
@@ -116,23 +131,6 @@
                 </rule>
               </rules>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptor>src/assembly/bin.xml</descriptor>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <!-- bind to the packaging phase -->
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>

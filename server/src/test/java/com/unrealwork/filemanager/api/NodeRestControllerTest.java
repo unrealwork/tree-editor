@@ -78,7 +78,7 @@ public class NodeRestControllerTest {
 
   @Test
   public void testGetRoot() throws Exception {
-    mockMvc.perform(get("/nodes/1"))
+    mockMvc.perform(get("/api/nodes/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(contentType))
         .andExpect(jsonPath("$.id", is(1)))
@@ -89,7 +89,7 @@ public class NodeRestControllerTest {
   @Test
   public void testSubNodeCreation() throws Exception {
     Description description = new Description("a");
-    mockMvc.perform(put("/nodes/1")
+    mockMvc.perform(put("/api/nodes/1")
         .contentType(contentType)
         .content(json(description)))
         .andExpect(status().isCreated())
@@ -100,7 +100,7 @@ public class NodeRestControllerTest {
   public void testCreationDuplicateContent() throws Exception {
     Description description = new Description("a");
     nodeService.add(1L, description);
-    mockMvc.perform(put("/nodes/1")
+    mockMvc.perform(put("/api/nodes/1")
         .contentType(contentType)
         .content(json(description)))
         .andExpect(status().isBadRequest());
@@ -113,7 +113,7 @@ public class NodeRestControllerTest {
         .collect(Collectors.toList());
 
     descriptionList.forEach(content -> nodeService.add(1L, content));
-    mockMvc.perform(get("/nodes"))
+    mockMvc.perform(get("/api/nodes"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(descriptionList.size() + 1)));
 
@@ -125,7 +125,7 @@ public class NodeRestControllerTest {
   public void testRemoveNode() throws Exception {
     Node node = nodeService.add(1L, new Description("a"));
     nodeService.add(node.getId(), new Description("b"));
-    mockMvc.perform(delete(String.format("/nodes/%d", node.getId())))
+    mockMvc.perform(delete(String.format("/api/nodes/%d", node.getId())))
         .andExpect(content().contentType(contentType))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content.name", is("a")));
@@ -142,7 +142,7 @@ public class NodeRestControllerTest {
 
     descriptionList.forEach(content -> nodeService.add(1L, content));
 
-    mockMvc.perform(get("/nodes/1/children"))
+    mockMvc.perform(get("/api/nodes/1/children"))
         .andExpect(content().contentType(contentType))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(3)));
@@ -155,7 +155,8 @@ public class NodeRestControllerTest {
     Node secondChild = nodeService.add(1L, new Description("b"));
     nodeService.add(firstChild.getId(), new Description("c"));
 
-    String testUri = String.format("/nodes/%d/move/%d", firstChild.getId(), secondChild.getId());
+    String testUri = String
+        .format("/api/nodes/%d/move/%d", firstChild.getId(), secondChild.getId());
     mockMvc
         .perform(get(testUri))
         .andExpect(content().contentType(contentType))
@@ -169,7 +170,7 @@ public class NodeRestControllerTest {
   @Transactional
   public void testUpdate() throws Exception {
     Node node = nodeService.add(1L, new Description("a"));
-    String uri = String.format("/nodes/%d", node.getId());
+    String uri = String.format("/api/nodes/%d", node.getId());
     mockMvc.perform(post(uri).
         contentType(APPLICATION_JSON).
         content(json(new Description("b"))))
@@ -178,11 +179,23 @@ public class NodeRestControllerTest {
         .andExpect(jsonPath("$.content.name", is("b")));
   }
 
+  @Test
+  @Transactional
+  public void testRoot() throws Exception {
+    String uri = "/api/nodes/root";
+    mockMvc.perform(get(uri))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(contentType))
+        .andExpect(jsonPath("$.content.name", is("/")));
+  }
+
+
   private <T> String json(T o) throws IOException {
     MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
     this.mappingJackson2HttpMessageConverter.write(
         o, APPLICATION_JSON, mockHttpOutputMessage);
     return mockHttpOutputMessage.getBodyAsString();
   }
+
 
 }

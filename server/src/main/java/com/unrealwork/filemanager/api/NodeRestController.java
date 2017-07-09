@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController(value = "node")
-@RequestMapping(path = "/nodes")
+@RequestMapping(path = "/api/nodes")
 @Slf4j
 public class NodeRestController {
 
@@ -110,6 +110,14 @@ public class NodeRestController {
   public ResponseEntity<Node> move(@PathVariable Long id,
       @PathVariable Long destId) {
     Node updatedNode = nodeService.move(id, destId);
+    return new ResponseEntity<>(updatedNode, HttpStatus.OK);
+  }
+
+  @RequestMapping(method = RequestMethod.GET, path = "root",
+      produces = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Node> root() {
+    Node updatedNode = nodeService.root();
     return new ResponseEntity<>(updatedNode, HttpStatus.OK);
   }
 }
