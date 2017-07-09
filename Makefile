@@ -16,7 +16,7 @@ pack:
 
 deps:
 	echo $(which mvn)
-	if [ -d "./client/" ]; then cd ./client && npm install; fi
+	#if [ -d "./client/" ]; then cd ./client && npm install; fi
 
 clean:
 	if [ -d "./build" ]; then rm -rf ./build; fi
