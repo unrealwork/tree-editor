@@ -1,6 +1,6 @@
 <div class="ui menu">
-  <a class="item"><h2>tree-editor</h2></a>
-  <div class="right pointed menu">
+  <a class="item"><h2>TE</h2></a>
+  <div *ngIf="isNodeSelected" class="right pointed menu">
     <a (click)="onSelect('add')" class="item" [ngClass]="{'active': loadedFeature === 'add'}">
       <i class="icon add"></i>
     </a>

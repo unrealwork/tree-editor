@@ -1,32 +1,35 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Node} from '../models/node.model';
-import {ApiService} from '../services/api.service';
 import {Description} from '../models/description.model';
+import {ActionPopupComponent} from '../action-popup/action-popup.component';
 
 @Component({
   selector: 'app-add-node',
   templateUrl: './add-node.component.html',
   styleUrls: ['./add-node.component.css']
 })
-export class AddNodeComponent implements OnInit {
+export class AddNodeComponent extends ActionPopupComponent implements OnInit, AfterViewInit {
+  @Output() addedNode = new EventEmitter<Node>();
+  @Output() featureChanged = new EventEmitter<string>();
+  description: Description = new Description('');
   @Input() node: Node;
 
-  constructor(private api: ApiService) {
+  ngOnInit(): void {
   }
 
-  ngOnInit(): void {
-    console.log(JSON.stringify(this.node));
+  ngAfterViewInit(): void {
+    this.description = new Description('');
   }
 
   addChild(content: string) {
     const desc = new Description(content);
-    console.log(`Created description: ${JSON.stringify(desc)}`);
     this.api.addChild(this.node.id, desc).then(node => {
-      this.node = node;
+      this.addedNode.emit(node);
     });
+    this.description = new Description('');
+    this.close();
   }
 
   onSubmit() {
-
   }
 }

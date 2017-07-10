@@ -23,20 +23,26 @@ export class NodeComponent implements OnInit {
   }
 
   isSelected() {
-    return this.selectedNode === this.node;
+    return this.selectedNode && this.node && this.selectedNode.id === this.node.id;
   }
 
   private refresh() {
     this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
     this.loadedNode.then(node => {
-      this.node = node;
-      this.children = this.api.children(node.id);
-    });
+        this.node = node;
+        this.api.children(this.node.id).then(
+          nodes => {
+            this.node.children = nodes;
+          }
+        );
+      }
+    );
   }
 
   onSelect(node: Node) {
     this.selected.emit(node);
     this.selectedNode = node;
+    console.log();
   }
 
   onNavigateNode(node: Node) {

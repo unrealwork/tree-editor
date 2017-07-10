@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ApiService} from '../services/api.service';
+import {Node} from '../models/node.model';
+
 
 @Component({
   selector: 'app-remove-node',
@@ -7,10 +10,25 @@ import {Component, OnInit} from '@angular/core';
 })
 export class RemoveNodeComponent implements OnInit {
 
-  constructor() {
+  @Input() node: Node;
+  @Output() sumbit = new EventEmitter<string>();
+  @Output() addedNode = new EventEmitter<Node>();
+
+  constructor(private api: ApiService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+  }
+
+  remove() {
+    console.log(`Remove node: ${JSON.stringify(this.node)}`);
+    this.api.remove(this.node.id).then(node => {
+    });
+    this.sumbit.emit('');
+  }
+
+  onSubmit() {
+
   }
 
 }

@@ -11,6 +11,7 @@ import {ApiService} from './services/api.service';
 import {HeaderComponent} from './header/header.component';
 import {EditNodeComponent} from './edit-node/edit-node.component';
 import {RemoveNodeComponent} from './remove-node/remove-node.component';
+import {ActionPopupComponent} from './action-popup/action-popup.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {RemoveNodeComponent} from './remove-node/remove-node.component';
     FillPipe,
     EditNodeComponent,
     EditNodeComponent,
-    RemoveNodeComponent
+    RemoveNodeComponent,
+    ActionPopupComponent
   ],
   imports: [
     BrowserModule,

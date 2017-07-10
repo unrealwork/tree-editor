@@ -1,22 +1,18 @@
-<div class="container">
-  <div class="ui attached message">
-    <div class="header">
-      Add child
+<form class="ui form" #f="ngForm" (ngSubmit)="onSubmit()">
+  <div class="ui action input">
+    <input type="text"
+           placeholder="Name"
+           name="name"
+           [(ngModel)]="description.name"
+           #name="ngModel"
+           required
+    >
+    <div (click)="addChild(name.value)" class="ui blue submit button"
+         [ngClass]="{'disabled': !f.form.valid}">Add
     </div>
-
   </div>
-  <form class="ui form attached fluid segment" (ngSubmit)="onSubmit()" #f="ngForm">
-    <div class="field">
-      <label>Name</label>
-      <div class="ui input raised">
-        <input type="text" placeholder="Name.." required #contentInput>
-      </div>
-    </div>
+</form>
 
-    <div (click)="addChild(contentInput.value)" class="ui sumbit button">
-      Add
-    </div>
-  </form>
-</div>
+
 
 

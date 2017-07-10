@@ -9,11 +9,13 @@ import {Node} from './models/node.model';
   providers: [ApiService]
 })
 export class AppComponent implements OnInit {
+
   loadedFeature: string;
   node: Node;
 
   ngOnInit(): void {
   }
+
 
   onNavigate(feature: string) {
     console.log(`Switch to ${feature} mode`);
@@ -25,6 +27,17 @@ export class AppComponent implements OnInit {
     this.node = node;
   }
 
+  onAdd(node: Node) {
+    console.log(node);
+    this.node = node;
+  }
+
+  isNodeSelected() {
+    console.log(`Selected Node: ${!!this.node}`);
+    return (!!this.node);
+  }
+
   constructor(private api: ApiService) {
   }
+
 }

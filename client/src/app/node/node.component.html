@@ -10,7 +10,7 @@
 </a>
 <ng-container *ngIf="isOpen">
   <app-node [(selected)]="selected" [node]="item" [selectedNode]="selectedNode"
-            *ngFor="let item of (children | async)">
+            *ngFor="let item of node?.children">
   </app-node>
 </ng-container>
 

@@ -1,7 +1,21 @@
 <div class="ui container">
-  <app-header (featureSelected)="onNavigate($event)"></app-header>
+  <app-header [loadedFeature]="loadedFeature"
+              (featureSelected)="onNavigate($event)"
+              [isNodeSelected]="isNodeSelected()"
+  >
+  </app-header>
   <div>
-    <app-add-node *ngIf="loadedFeature === 'add'" [node]="node"></app-add-node>
+    <app-action-popup (featureChanged)="onNavigate($event)"
+                      [header]="'Add child'"
+                      *ngIf="loadedFeature === 'add'"
+                      [node]="node"
+    >
+      <app-add-node [node]="node" (featureChanged)="onNavigate($event)"></app-add-node>
+    </app-action-popup>
+
+    <app-remove-node
+      *ngIf="loadedFeature === 'remove'"
+      [node]="node"></app-remove-node>
   </div>
   <div class="ui vertical menu fluid">
     <app-node (selected)="onNavigateNode($event)" [selectedNode]="node"></app-node>

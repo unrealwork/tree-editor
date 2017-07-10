@@ -1,6 +1,18 @@
 import {Description} from './description.model';
 
 export class Node {
+  set children(value: Array<Node>) {
+    this._children = value;
+  }
+
+  private _content: Description;
+  private _parent: Node;
+  private _id: number;
+  private _root: boolean;
+  private _terminal: boolean;
+  private _level: number;
+  private _children: Array<Node> = [];
+
   get content(): Description {
     return this._content;
   }
@@ -25,10 +37,7 @@ export class Node {
     return this._level;
   }
 
-  private _content: Description;
-  private _parent: Node;
-  private _id: number;
-  private _root: boolean;
-  private _terminal: boolean;
-  private _level: number;
+  add(child: Node) {
+    this._children.push(child);
+  }
 }
