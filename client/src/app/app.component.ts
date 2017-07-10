@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from './services/api.service';
-import {SelectionService} from './services/selection.service';
+import {Node} from './models/node.model';
 
 @Component({
   selector: 'app-root',
@@ -9,21 +9,22 @@ import {SelectionService} from './services/selection.service';
   providers: [ApiService]
 })
 export class AppComponent implements OnInit {
-  isSelected = false;
+  loadedFeature: string;
+  node: Node;
 
   ngOnInit(): void {
-    this.selectionService.selectedComponent$.subscribe(
-      res => {
-        console.log('a');
-        if (res) {
-          this.isSelected = true;
-        }
-      },
-      err => {
-      }
-    );
   }
 
-  constructor(private api: ApiService, private selectionService: SelectionService) {
+  onNavigate(feature: string) {
+    console.log(`Switch to ${feature} mode`);
+    this.loadedFeature = feature;
+  }
+
+  onNavigateNode(node: Node) {
+    console.log(`Navigate to ${JSON.stringify(node)}`);
+    this.node = node;
+  }
+
+  constructor(private api: ApiService) {
   }
 }

@@ -1,6 +1,9 @@
 <div class="ui container">
-  <app-control-panel *ngIf="isSelected"></app-control-panel>
+  <app-header (featureSelected)="onNavigate($event)"></app-header>
+  <div>
+    <app-add-node *ngIf="loadedFeature === 'add'" [node]="node"></app-add-node>
+  </div>
   <div class="ui vertical menu fluid">
-    <app-node></app-node>
+    <app-node (selected)="onNavigateNode($event)" [selectedNode]="node"></app-node>
   </div>
 </div>

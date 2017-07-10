@@ -6,23 +6,29 @@ import {HttpModule} from '@angular/http';
 import {AppComponent} from './app.component';
 import {NodeComponent} from './node/node.component';
 import {FillPipe} from './fill.pipe';
-import {CoreModule} from './core.module';
-import {ControlPanelComponent} from './control-panel/controlPanel.component';
+import {AddNodeComponent} from './add-node/add-node.component';
+import {ApiService} from './services/api.service';
+import {HeaderComponent} from './header/header.component';
+import {EditNodeComponent} from './edit-node/edit-node.component';
+import {RemoveNodeComponent} from './remove-node/remove-node.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NodeComponent,
-    ControlPanelComponent,
-    FillPipe
+    AddNodeComponent,
+    HeaderComponent,
+    FillPipe,
+    EditNodeComponent,
+    EditNodeComponent,
+    RemoveNodeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    CoreModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

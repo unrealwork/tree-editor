@@ -1,0 +1,14 @@
+<div class="ui menu">
+  <a class="item"><h2>tree-editor</h2></a>
+  <div class="right pointed menu">
+    <a (click)="onSelect('add')" class="item" [ngClass]="{'active': loadedFeature === 'add'}">
+      <i class="icon add"></i>
+    </a>
+    <a (click)="onSelect('remove')" class="item" [ngClass]="{'active': loadedFeature === 'remove'}">
+      <i class="icon remove"></i>
+    </a>
+    <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
+      <i class="icon edit"></i>
+    </a>
+  </div>
+</div>

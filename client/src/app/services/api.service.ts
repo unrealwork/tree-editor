@@ -13,9 +13,9 @@ export class ApiService {
 
 
   /**
-   * Retrieve node by specified id.
+   * Retrieve loadedNode by specified id.
    * @param id - id.
-   * @returns {Promise<any>} - promise with node
+   * @returns {Promise<any>} - promise with loadedNode
    */
   public root(): Promise<Node> {
     return this.http.get(`${this.nodesUrl}root`)
@@ -25,9 +25,9 @@ export class ApiService {
   }
 
   /**
-   * Retrieve node by specified id.
+   * Retrieve loadedNode by specified id.
    * @param id - id.
-   * @returns {Promise<any>} - promise with node
+   * @returns {Promise<any>} - promise with loadedNode
    */
   public get(id: number): Promise<Node> {
     return this.http.get(this.nodesUrl + id)

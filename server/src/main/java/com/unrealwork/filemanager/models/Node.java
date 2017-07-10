@@ -36,8 +36,10 @@ public class Node {
   @GeneratedValue
   @Getter
   private Long id;
+  private Long level;
 
   public Node() {
+    this.level = 0L;
   }
 
   /**
@@ -46,9 +48,15 @@ public class Node {
    * @param content - {@link Description} class' instance
    */
   public Node(Description content) {
+    this();
     this.content = content;
     children = new HashSet<>();
     log.debug("Node with the value {} was created!", content);
+  }
+
+  public void setParent(Node parent) {
+    this.parent = parent;
+    this.level = parent.getLevel() + 1;
   }
 
   /**
@@ -124,14 +132,7 @@ public class Node {
    *
    * @return level value > 0
    */
-  public int getLevel() {
-    //TODO: optimize;
-    int level = 0;
-    Node it = this;
-    while (it.parent != null) {
-      level++;
-      it = it.parent;
-    }
+  public Long getLevel() {
     return level;
   }
 

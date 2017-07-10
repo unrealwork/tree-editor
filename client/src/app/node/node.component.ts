@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {Node} from '../models/node.model';
-import {SelectionService} from '../services/selection.service';
 
 @Component({
   selector: 'app-node',
@@ -9,34 +8,44 @@ import {SelectionService} from '../services/selection.service';
   styleUrls: ['./node.component.css']
 })
 export class NodeComponent implements OnInit {
-  @Input() id: number;
-  node: Promise<Node>;
+  @Output() @Input() selected = new EventEmitter<Node>();
+  @Input() node: Node;
+  @Input() selectedNode: Node;
+  loadedNode: Promise<Node>;
   children: Promise<Array<Node>>;
   isOpen = false;
-  isSelected = false;
 
-  constructor(private api: ApiService, private selectionService: SelectionService) {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
     this.refresh();
   }
 
+  isSelected() {
+    return this.selectedNode === this.node;
+  }
+
   private refresh() {
-    this.node = (this.id) ? this.api.get(this.id) : this.api.root();
-    this.node.then(node => {
+    this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
+    this.loadedNode.then(node => {
+      this.node = node;
       this.children = this.api.children(node.id);
     });
   }
 
-  select() {
-    this.isSelected = true;
-    this.selectionService.update(this);
+  onSelect(node: Node) {
+    this.selected.emit(node);
+    this.selectedNode = node;
+  }
+
+  onNavigateNode(node: Node) {
+    this.selectedNode = node;
   }
 
   toggle() {
     this.refresh();
-    this.node.then(
+    this.loadedNode.then(
       node => {
         if (!node.terminal) {
           this.isOpen = !this.isOpen;

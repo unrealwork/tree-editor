@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="ui attached message">
+    <div class="header">
+      Add child
+    </div>
+
+  </div>
+  <form class="ui form attached fluid segment" (ngSubmit)="onSubmit()" #f="ngForm">
+    <div class="field">
+      <label>Name</label>
+      <div class="ui input raised">
+        <input type="text" placeholder="Name.." required #contentInput>
+      </div>
+    </div>
+
+    <div (click)="addChild(contentInput.value)" class="ui sumbit button">
+      Add
+    </div>
+  </form>
+</div>
+
+
