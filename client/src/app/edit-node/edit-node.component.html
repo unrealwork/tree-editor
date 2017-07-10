@@ -1,0 +1,14 @@
+<form class="ui form" #f="ngForm" (ngSubmit)="onSubmit()">
+  <div class="ui action input">
+    <input type="text"
+           placeholder="Name"
+           name="name"
+           [(ngModel)]="description.name"
+           #name="ngModel"
+           required
+    >
+    <div (click)="addChild(name.value)" class="ui blue submit button"
+         [ngClass]="{'disabled': !f.form.valid}">Change
+    </div>
+  </div>
+</form>

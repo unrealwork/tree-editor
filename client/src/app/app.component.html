@@ -13,9 +13,23 @@
       <app-add-node [node]="node" (featureChanged)="onNavigate($event)"></app-add-node>
     </app-action-popup>
 
-    <app-remove-node
-      *ngIf="loadedFeature === 'remove'"
-      [node]="node"></app-remove-node>
+    <app-action-popup (featureChanged)="onNavigate($event)"
+                      [header]="'Change name of node'"
+                      *ngIf="loadedFeature === 'edit'"
+                      [node]="node"
+    >
+      <app-edit-node [node]="node" (featureChanged)="onNavigate($event)"></app-edit-node>
+    </app-action-popup>
+    <app-action-popup (featureChanged)="onNavigate($event)"
+                      [header]="'Are you sure you want remove this node?'"
+                      *ngIf="loadedFeature === 'remove'"
+                      [node]="node"
+    >
+      <app-remove-node
+        [node]="node"></app-remove-node>
+    </app-action-popup>
+  </div>
+  <div class="ui divider">
   </div>
   <div class="ui vertical menu fluid">
     <app-node (selected)="onNavigateNode($event)" [selectedNode]="node"></app-node>

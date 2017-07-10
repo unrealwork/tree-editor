@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiService} from '../services/api.service';
 import {Node} from '../models/node.model';
+import {ActionPopupComponent} from '../action-popup/action-popup.component';
 
 
 @Component({
@@ -8,14 +8,11 @@ import {Node} from '../models/node.model';
   templateUrl: './remove-node.component.html',
   styleUrls: ['./remove-node.component.css']
 })
-export class RemoveNodeComponent implements OnInit {
+export class RemoveNodeComponent extends ActionPopupComponent implements OnInit {
 
   @Input() node: Node;
   @Output() sumbit = new EventEmitter<string>();
   @Output() addedNode = new EventEmitter<Node>();
-
-  constructor(private api: ApiService) {
-  }
 
   ngOnInit(): void {
   }
@@ -25,6 +22,7 @@ export class RemoveNodeComponent implements OnInit {
     this.api.remove(this.node.id).then(node => {
     });
     this.sumbit.emit('');
+    this.close();
   }
 
   onSubmit() {
