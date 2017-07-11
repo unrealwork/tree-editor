@@ -34,7 +34,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
   refresh() {
     this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
     this.loadedNode.then(node => {
+      const previousNode = this.node;
         this.node = node;
+      if (previousNode && (previousNode.terminal !== this.node.terminal)) {
+        this.isOpen = true;
+      }
         this.api.children(this.node.id).then(
           nodes => {
             this.node.children = nodes;
@@ -61,6 +65,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.loadedNode.then(
       node => {
         if (!node.terminal) {
+          console.log('what?');
           this.isOpen = !this.isOpen;
           this.refresh();
         }

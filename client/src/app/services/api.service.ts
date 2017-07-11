@@ -13,14 +13,27 @@ export class ApiService {
 
 
   /**
-   * Retrieve loadedNode by specified id.
-   * @param id - id.
-   * @returns {Promise<any>} - promise with loadedNode
+   * Retrieve root node.
+   *
+   * @returns {Promise<any>} - promise with root node
    */
   public root(): Promise<Node> {
     return this.http.get(`${this.nodesUrl}root`)
     .toPromise()
     .then(response => response.json() as Node)
+    .catch(this.handleError);
+  }
+
+  /**
+   * Retrieve path by specified id.
+   *
+   * @param id - id.
+   * @returns {Promise<any>} - promise with loadedNode
+   */
+  public path(id: number): Promise<Array<Node>> {
+    return this.http.get(`${this.nodesUrl + id}/path`)
+    .toPromise()
+    .then(response => response.json() as Array<Node>)
     .catch(this.handleError);
   }
 

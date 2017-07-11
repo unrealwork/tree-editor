@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ApiService} from './services/api.service';
 import {Node} from './models/node.model';
 import {NodeComponent} from './node/node.component';
@@ -9,13 +9,11 @@ import {NodeComponent} from './node/node.component';
   styleUrls: ['./app.component.css'],
   providers: [ApiService]
 })
-export class AppComponent implements OnInit {
-  @ViewChild(NodeComponent) nodeComponent;
-  loadedFeature: string;
-  node: NodeComponent;
+export class AppComponent implements AfterViewInit {
 
-  ngOnInit(): void {
-  }
+  @ViewChild(NodeComponent) nodeComponent = null;
+
+  loadedFeature: string;
 
 
   onNavigate(feature: string) {
@@ -24,7 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   onNavigateNode(node: NodeComponent) {
-    this.node = node;
+    this.nodeComponent = node;
   }
 
   onAdd(node: Node) {
@@ -32,10 +30,12 @@ export class AppComponent implements OnInit {
   }
 
   isNodeSelected() {
-    return (!!this.node);
+    return (!!this.nodeComponent);
   }
 
   constructor(private api: ApiService) {
   }
 
+  ngAfterViewInit(): void {
+  }
 }

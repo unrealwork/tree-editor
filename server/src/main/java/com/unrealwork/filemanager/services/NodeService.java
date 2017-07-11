@@ -9,7 +9,9 @@ import com.unrealwork.filemanager.exceptions.RootNotFoundException;
 import com.unrealwork.filemanager.exceptions.SelfMovementException;
 import com.unrealwork.filemanager.models.Description;
 import com.unrealwork.filemanager.models.Node;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -185,5 +187,28 @@ public class NodeService {
     nodeRepository.delete(root.getChildren());
     root.removeAll();
     nodeRepository.save(root);
+  }
+
+  /**
+   * Get node path from root.
+   */
+  @Transactional
+  public Collection<Node> path(Long id) {
+    Deque<Node> deque = new ArrayDeque<Node>();
+    Node it = getOne(id);
+    while (true) {
+      try {
+        deque.addFirst(it);
+        Node parent = it.getParent();
+        if (parent != null) {
+          it = getOne(parent.getId());
+        } else {
+          break;
+        }
+      } catch (NodeNotFoundException e) {
+        break;
+      }
+    }
+    return deque;
   }
 }

@@ -4,13 +4,17 @@
               [isNodeSelected]="isNodeSelected()"
   >
   </app-header>
+  <div class="ui horizontal divider">
+    PATH
+  </div>
+  <app-node-path [node]="nodeComponent"></app-node-path>
   <div>
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Add child'"
                       *ngIf="loadedFeature === 'add'"
-                      [nodeComponent]="node"
+                      [nodeComponent]="nodeComponent"
     >
-      <app-add-node [nodeComponent]="node"
+      <app-add-node [nodeComponent]="nodeComponent"
                     (featureChanged)="onNavigate($event)"
                     (addedNode)="onNavigateNode($event)"></app-add-node>
     </app-action-popup>
@@ -18,23 +22,25 @@
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Change name of node'"
                       *ngIf="loadedFeature === 'edit'"
-                      [nodeComponent]="node"
+                      [nodeComponent]="nodeComponent"
     >
-      <app-edit-node [nodeComponent]="node" (featureChanged)="onNavigate($event)"></app-edit-node>
+      <app-edit-node [nodeComponent]="nodeComponent"
+                     (featureChanged)="onNavigate($event)"></app-edit-node>
     </app-action-popup>
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Are you sure you want remove this node?'"
                       *ngIf="loadedFeature === 'remove'"
-                      [nodeComponent]="node"
+                      [nodeComponent]="nodeComponent"
     >
       <app-remove-node
-        [nodeComponent]="node" (featureChanged)="onNavigate($event)"></app-remove-node>
+        [nodeComponent]="nodeComponent" (featureChanged)="onNavigate($event)"></app-remove-node>
     </app-action-popup>
   </div>
   <div class="ui horizontal divider">
     TREE
   </div>
   <div class="ui vertical menu fluid">
-    <app-node (selected)="onNavigateNode($event)" [selectedNodeComponent]="node"></app-node>
+    <app-node (selected)="onNavigateNode($event)"
+              [selectedNodeComponent]="nodeComponent"></app-node>
   </div>
 </div>

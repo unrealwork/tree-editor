@@ -12,6 +12,7 @@ import {HeaderComponent} from './header/header.component';
 import {EditNodeComponent} from './edit-node/edit-node.component';
 import {RemoveNodeComponent} from './remove-node/remove-node.component';
 import {ActionPopupComponent} from './action-popup/action-popup.component';
+import {NodePathComponent} from './node-path/node-path.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {ActionPopupComponent} from './action-popup/action-popup.component';
     EditNodeComponent,
     EditNodeComponent,
     RemoveNodeComponent,
-    ActionPopupComponent
+    ActionPopupComponent,
+    NodePathComponent
   ],
   imports: [
     BrowserModule,
