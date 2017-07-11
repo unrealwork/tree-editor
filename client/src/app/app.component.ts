@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from './services/api.service';
 import {Node} from './models/node.model';
+import {NodeComponent} from './node/node.component';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,9 @@ import {Node} from './models/node.model';
   providers: [ApiService]
 })
 export class AppComponent implements OnInit {
-
+  @ViewChild(NodeComponent) nodeComponent;
   loadedFeature: string;
-  node: Node;
+  node: NodeComponent;
 
   ngOnInit(): void {
   }
@@ -22,18 +23,15 @@ export class AppComponent implements OnInit {
     this.loadedFeature = feature;
   }
 
-  onNavigateNode(node: Node) {
-    console.log(`Navigate to ${JSON.stringify(node)}`);
+  onNavigateNode(node: NodeComponent) {
     this.node = node;
   }
 
   onAdd(node: Node) {
     console.log(node);
-    this.node = node;
   }
 
   isNodeSelected() {
-    console.log(`Selected Node: ${!!this.node}`);
     return (!!this.node);
   }
 

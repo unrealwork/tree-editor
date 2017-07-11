@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ApiService} from '../services/api.service';
-import {Node} from '../models/node.model';
+import {NodeComponent} from '../node/node.component';
 
 @Component({
   selector: 'app-action-popup',
@@ -8,7 +8,7 @@ import {Node} from '../models/node.model';
   styleUrls: ['./action-popup.component.css']
 })
 export class ActionPopupComponent implements OnInit {
-  @Input() node: Node;
+  @Input() nodeComponent: NodeComponent;
   @Input() header: string;
   @Output() featureChanged = new EventEmitter<string>();
 
@@ -16,7 +16,7 @@ export class ActionPopupComponent implements OnInit {
   }
 
   close() {
-    console.log('Close and emit');
+    console.log('changed');
     this.featureChanged.emit('');
   }
 

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Node} from '../models/node.model';
 import {Description} from '../models/description.model';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
+import {NodeComponent} from '../node/node.component';
 
 @Component({
   selector: 'app-add-node',
@@ -9,10 +9,9 @@ import {ActionPopupComponent} from '../action-popup/action-popup.component';
   styleUrls: ['./add-node.component.css']
 })
 export class AddNodeComponent extends ActionPopupComponent implements OnInit, AfterViewInit {
-  @Output() addedNode = new EventEmitter<Node>();
   @Output() featureChanged = new EventEmitter<string>();
   description: Description = new Description('');
-  @Input() node: Node;
+  @Input() nodeComponent: NodeComponent;
 
   ngOnInit(): void {
   }
@@ -23,11 +22,14 @@ export class AddNodeComponent extends ActionPopupComponent implements OnInit, Af
 
   addChild(content: string) {
     const desc = new Description(content);
-    this.api.addChild(this.node.id, desc).then(node => {
-      this.addedNode.emit(node);
+    this.api.addChild(this.nodeComponent.node.id, desc).then(node => {
+      this.nodeComponent.refresh();
+      if (!this.nodeComponent.isOpen) {
+        this.nodeComponent.isOpen = true;
+      }
+      this.close();
+      this.description = new Description('');
     });
-    this.description = new Description('');
-    this.close();
   }
 
   onSubmit() {

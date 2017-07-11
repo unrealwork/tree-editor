@@ -8,30 +8,32 @@
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Add child'"
                       *ngIf="loadedFeature === 'add'"
-                      [node]="node"
+                      [nodeComponent]="node"
     >
-      <app-add-node [node]="node" (featureChanged)="onNavigate($event)"></app-add-node>
+      <app-add-node [nodeComponent]="node"
+                    (featureChanged)="onNavigate($event)"
+                    (addedNode)="onNavigateNode($event)"></app-add-node>
     </app-action-popup>
 
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Change name of node'"
                       *ngIf="loadedFeature === 'edit'"
-                      [node]="node"
+                      [nodeComponent]="node"
     >
-      <app-edit-node [node]="node" (featureChanged)="onNavigate($event)"></app-edit-node>
+      <app-edit-node [nodeComponent]="node" (featureChanged)="onNavigate($event)"></app-edit-node>
     </app-action-popup>
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Are you sure you want remove this node?'"
                       *ngIf="loadedFeature === 'remove'"
-                      [node]="node"
+                      [nodeComponent]="node"
     >
       <app-remove-node
-        [node]="node"></app-remove-node>
+        [nodeComponent]="node" (featureChanged)="onNavigate($event)"></app-remove-node>
     </app-action-popup>
   </div>
   <div class="ui divider">
   </div>
   <div class="ui vertical menu fluid">
-    <app-node (selected)="onNavigateNode($event)" [selectedNode]="node"></app-node>
+    <app-node (selected)="onNavigateNode($event)" [selectedNodeComponent]="node"></app-node>
   </div>
 </div>

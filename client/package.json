@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "version": "0.0.0",
+  "name": "tree-editor-client",
+  "version": "0.0.1",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
