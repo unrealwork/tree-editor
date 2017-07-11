@@ -31,7 +31,8 @@
         [nodeComponent]="node" (featureChanged)="onNavigate($event)"></app-remove-node>
     </app-action-popup>
   </div>
-  <div class="ui divider">
+  <div class="ui horizontal divider">
+    TREE
   </div>
   <div class="ui vertical menu fluid">
     <app-node (selected)="onNavigateNode($event)" [selectedNodeComponent]="node"></app-node>

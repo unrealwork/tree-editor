@@ -1,6 +1,9 @@
 import {Description} from './description.model';
 
 export class Node {
+  set content(value: Description) {
+    this._content = value;
+  }
   set children(value: Array<Node>) {
     this._children = value;
   }

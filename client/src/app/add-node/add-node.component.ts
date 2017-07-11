@@ -23,7 +23,7 @@ export class AddNodeComponent extends ActionPopupComponent implements OnInit, Af
   addChild(content: string) {
     const desc = new Description(content);
     this.api.addChild(this.nodeComponent.node.id, desc).then(node => {
-      this.nodeComponent.refresh();
+      this.nodeComponent.node.children.push(node);
       if (!this.nodeComponent.isOpen) {
         this.nodeComponent.isOpen = true;
       }

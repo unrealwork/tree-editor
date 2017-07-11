@@ -1,14 +1,30 @@
-<div class="ui menu">
-  <a class="item"><h2>TE</h2></a>
-  <div *ngIf="isNodeSelected" class="right pointed menu">
-    <a (click)="onSelect('add')" class="item" [ngClass]="{'active': loadedFeature === 'add'}">
-      <i class="icon add"></i>
-    </a>
-    <a (click)="onSelect('remove')" class="item" [ngClass]="{'active': loadedFeature === 'remove'}">
-      <i class="icon remove"></i>
-    </a>
-    <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
-      <i class="icon edit"></i>
-    </a>
+<div class="ui labeled icon menu">
+  <a class="item"><i class="icon"><h2>TE</h2></i></a>
+  <div *ngIf="isNodeSelected" class="ui right pointing labeled icon menu">
+    <div data-tooltip="Add child to your tree" data-position="bottom left">
+      <a (click)="onSelect('add')"
+         class="item"
+         [ngClass]="{'active': loadedFeature === 'add'}"
+
+      >
+        <i class="icon add"></i>
+        Add
+      </a>
+    </div>
+    <div data-tooltip="Remove child from your tree" data-position="bottom left">
+
+      <a (click)="onSelect('remove')" class="item"
+         [ngClass]="{'active': loadedFeature === 'remove'}">
+        <i class="icon remove"></i>
+        Remove
+      </a>
+    </div>
+    <div data-tooltip="Edit current node" data-position="bottom left">
+
+      <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
+        <i class="icon edit"></i>
+        Edit
+      </a>
+    </div>
   </div>
 </div>

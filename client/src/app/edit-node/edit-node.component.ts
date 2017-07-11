@@ -25,7 +25,7 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
   addChild(content: string) {
     const desc = new Description(content);
     this.api.update(this.nodeComponent.node.id, desc).then(node => {
-      this.nodeComponent.refresh();
+      this.nodeComponent.node.content = node.content;
     });
     this.description = new Description('');
     this.close();
