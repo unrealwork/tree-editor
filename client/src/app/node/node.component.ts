@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {ApiService} from '../services/api.service';
 import {Node} from '../models/node.model';
 
@@ -16,6 +25,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   loadedNode: Promise<Node>;
   isOpen = false;
   @Input() parentComponent: NodeComponent;
+  @ViewChildren(NodeComponent) childrenComponents: QueryList<NodeComponent>;
 
   constructor(private api: ApiService) {
   }
@@ -36,6 +46,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.loadedNode.then(node => {
       const previousNode = this.node;
         this.node = node;
+      if (this.childrenComponents) {
+        this.childrenComponents.forEach(c => {
+          c.refresh();
+        });
+      }
       if (previousNode && (previousNode.terminal !== this.node.terminal)) {
         this.isOpen = true;
       }

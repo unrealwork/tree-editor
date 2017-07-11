@@ -90,7 +90,7 @@ export class ApiService {
   }
 
   public move(id: number, destId: number): Promise<Node> {
-    return this.http.get(`${this.nodesUrl + id}/${destId}`)
+    return this.http.get(`${this.nodesUrl + id}/move/${destId}`)
     .toPromise()
     .then(response => response.json() as Node)
     .catch(this.handleError);

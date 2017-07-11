@@ -18,7 +18,7 @@ export class NodePathComponent {
   }
 
   set node(node: NodeComponent) {
-    if (node.node) {
+    if (node && node.node) {
       this._node = node;
       this.refresh();
     } else {

@@ -35,12 +35,29 @@
       <app-remove-node
         [nodeComponent]="nodeComponent" (featureChanged)="onNavigate($event)"></app-remove-node>
     </app-action-popup>
+    <app-action-popup (featureChanged)="onNavigate($event)"
+                      [header]="'Select destination node'"
+                      *ngIf="loadedFeature === 'move'"
+                      [nodeComponent]="nodeComponent"
+    >
+      <app-move-node [srcNode]="nodeComponent" [destNode]="destinationComponent"></app-move-node>
+    </app-action-popup>
   </div>
   <div class="ui horizontal divider">
     TREE
   </div>
   <div class="ui vertical menu fluid">
     <app-node (selected)="onNavigateNode($event)"
-              [selectedNodeComponent]="nodeComponent"></app-node>
+              [selectedNodeComponent]="nodeComponent"
+              [ngClass]="{'hidden': loadedFeature === 'move'}"
+              #main
+    ></app-node>
+
+    <app-node (selected)="onNavigateNode($event)"
+              [selectedNodeComponent]="destinationComponent"
+              [ngClass]="{'hidden': loadedFeature !== 'move'}"
+
+              #dest
+    ></app-node>
   </div>
 </div>

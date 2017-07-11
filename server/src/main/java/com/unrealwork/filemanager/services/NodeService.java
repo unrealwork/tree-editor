@@ -173,6 +173,7 @@ public class NodeService {
     parent.remove(srcNode);
     nodeRepository.save(parent);
     destNode.add(srcNode);
+    srcNode.setParent(destNode);
     nodeRepository.save(destNode);
     return srcNode;
   }

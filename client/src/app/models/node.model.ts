@@ -1,6 +1,9 @@
 import {Description} from './description.model';
 
 export class Node {
+  set terminal(value: boolean) {
+    this._terminal = value;
+  }
   set content(value: Description) {
     this._content = value;
   }

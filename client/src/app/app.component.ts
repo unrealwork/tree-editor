@@ -11,9 +11,10 @@ import {NodeComponent} from './node/node.component';
 })
 export class AppComponent implements AfterViewInit {
 
-  @ViewChild(NodeComponent) nodeComponent = null;
+  @ViewChild('main') nodeComponent = null;
+  @ViewChild('dest') destinationComponent = null;
 
-  loadedFeature: string;
+  loadedFeature = '';
 
 
   onNavigate(feature: string) {
@@ -22,7 +23,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   onNavigateNode(node: NodeComponent) {
-    this.nodeComponent = node;
+    if (this.loadedFeature !== 'move') {
+      this.nodeComponent = node;
+    } else {
+      this.destinationComponent = node;
+    }
   }
 
   onAdd(node: Node) {

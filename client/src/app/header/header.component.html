@@ -11,6 +11,20 @@
         Add
       </a>
     </div>
+    <div data-tooltip="Edit current node" data-position="bottom left">
+
+      <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
+        <i class="icon edit"></i>
+        Edit
+      </a>
+    </div>
+    <div data-tooltip="Move current node to another node" data-position="bottom left">
+
+      <a (click)="onSelect('move')" class="item" [ngClass]="{'active': loadedFeature === 'move'}">
+        <i class="icon move"></i>
+        Move
+      </a>
+    </div>
     <div data-tooltip="Remove child from your tree" data-position="bottom left">
 
       <a (click)="onSelect('remove')" class="item"
@@ -19,12 +33,7 @@
         Remove
       </a>
     </div>
-    <div data-tooltip="Edit current node" data-position="bottom left">
 
-      <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
-        <i class="icon edit"></i>
-        Edit
-      </a>
-    </div>
+
   </div>
 </div>
