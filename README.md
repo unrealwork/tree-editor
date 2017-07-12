@@ -21,7 +21,7 @@ Server represents RESTFul service with following API. Client is single page appl
 ## Demo
 Latest stable version of application available here: https://tree-editor.herokuapp.com/
 ## Features
-- [ ] Selected element has to mark with special icon. 
+- [x] Selected element has to mark with special icon. 
 - [ ] Lazy node loading.
 - [ ] Emulate two-seconds loading by delay.
 - [x] Tree modification's operations
