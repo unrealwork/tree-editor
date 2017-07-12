@@ -26,6 +26,7 @@
                       [nodeComponent]="nodeComponent"
     >
       <app-edit-node [nodeComponent]="nodeComponent"
+                     [pathComponent]="pathComponent"
                      (featureChanged)="onNavigate($event)"></app-edit-node>
     </app-action-popup>
     <app-action-popup (featureChanged)="onNavigate($event)"

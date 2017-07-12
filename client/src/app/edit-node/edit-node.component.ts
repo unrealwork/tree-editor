@@ -3,6 +3,7 @@ import {Description} from '../models/description.model';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {Node} from '../models/node.model';
 import {NodeComponent} from '../node/node.component';
+import {NodePathComponent} from '../node-path/node-path.component';
 
 @Component({
   selector: 'app-edit-node',
@@ -14,6 +15,7 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
   @Output() featureChanged = new EventEmitter<string>();
   description: Description = new Description('');
   @Input() nodeComponent: NodeComponent;
+  @Input() pathComponent: NodePathComponent;
 
   ngOnInit(): void {
   }
@@ -26,6 +28,7 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
     const desc = new Description(content);
     this.api.update(this.nodeComponent.node.id, desc).then(node => {
       this.nodeComponent.node.content = node.content;
+      this.pathComponent.refresh();
     });
     this.description = new Description('');
     this.close();
