@@ -19,7 +19,7 @@ Simple client-server application for editing tree structure that stores in datab
 Server represents RESTFul service with following API. Client is single page application.
 
 ### Demo
-Latest stable version of application available here: 
+Latest stable version of application available here: https://tree-editor.herokuapp.com/
 ### Features
 - [ ] Selected element has to mark with special icon. 
 - [ ] Lazy node loading.
