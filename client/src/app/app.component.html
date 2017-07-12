@@ -2,6 +2,7 @@
   <app-header [loadedFeature]="loadedFeature"
               (featureSelected)="onNavigate($event)"
               [isNodeSelected]="isNodeSelected()"
+              [destNode]="destinationComponent"
   >
   </app-header>
   <div class="ui horizontal divider">
@@ -40,7 +41,8 @@
                       *ngIf="loadedFeature === 'move'"
                       [nodeComponent]="nodeComponent"
     >
-      <app-move-node [srcNode]="nodeComponent" [destNode]="destinationComponent"></app-move-node>
+      <app-move-node [srcNode]="nodeComponent" [destNode]="destinationComponent"
+                     (featureChanged)="onNavigate($event)"></app-move-node>
     </app-action-popup>
   </div>
   <div class="ui horizontal divider">

@@ -20,6 +20,7 @@ export class AppComponent implements AfterViewInit {
   onNavigate(feature: string) {
     console.log(`Switch to ${feature} mode`);
     this.loadedFeature = feature;
+    this.destinationComponent.collapseAll();
   }
 
   onNavigateNode(node: NodeComponent) {

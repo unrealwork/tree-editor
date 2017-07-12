@@ -46,17 +46,17 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.loadedNode.then(node => {
       const previousNode = this.node;
         this.node = node;
-      if (this.childrenComponents) {
-        this.childrenComponents.forEach(c => {
-          c.refresh();
-        });
-      }
       if (previousNode && (previousNode.terminal !== this.node.terminal)) {
         this.isOpen = true;
       }
         this.api.children(this.node.id).then(
           nodes => {
             this.node.children = nodes;
+            if (this.childrenComponents) {
+              this.childrenComponents.forEach(c => {
+                c.refresh();
+              });
+            }
           }
         );
       }
@@ -64,6 +64,19 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this.selected.emit(this.parentComponent);
       this.parentComponent.refresh();
     });
+  }
+
+  collapse() {
+    this.isOpen = false;
+  }
+
+  collapseAll() {
+    console.log(`${JSON.stringify(this.node.content.name)} has parent`);
+    if (this.parentComponent) {
+      this.parentComponent.collapse();
+    } else {
+      this.collapse();
+    }
   }
 
   onSelect(node: NodeComponent) {
@@ -86,5 +99,28 @@ export class NodeComponent implements OnInit, AfterViewInit {
         }
       }
     );
+  }
+
+  root(): NodeComponent {
+    if (this.parentComponent == null) {
+      return this;
+    } else {
+      return this.parentComponent.root();
+    }
+  }
+
+  find(node: Node): NodeComponent {
+    if (this.node.id === node.id) {
+      return this;
+    } else {
+      const children: Array<NodeComponent> = this.childrenComponents.toArray();
+      for (const child of  children) {
+        const res = child.find(node);
+        if (res) {
+          return res;
+        }
+      }
+    }
+    return null;
   }
 }
