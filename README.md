@@ -14,13 +14,13 @@
     </a>
 </p>
 
-### Description
+## Description
 Simple client-server application for editing tree structure that stores in database.
 Server represents RESTFul service with following API. Client is single page application.
 
-### Demo
+## Demo
 Latest stable version of application available here: https://tree-editor.herokuapp.com/
-### Features
+## Features
 - [ ] Selected element has to mark with special icon. 
 - [ ] Lazy node loading.
 - [ ] Emulate two-seconds loading by delay.
@@ -31,14 +31,14 @@ Latest stable version of application available here: https://tree-editor.herokua
   - [x] Move current node to another node 
 - [x] Store tree in DB.
 
-### Build
+## Build
 ```
 make
 make start
 ```
 
 
-### Using technologies
+## Using technologies
 
 **Backend**
 - ![](http://projects.spring.io/spring-cloud/favicon.png) [Spring Framework](https://spring.io/)

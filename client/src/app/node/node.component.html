@@ -5,7 +5,7 @@
       <i (click)="toggle()"
          [ngClass]="{'down': isOpen, 'right': !isOpen, 'caret': !node?.terminal}"
          class="icon"></i>
-      <i [ngClass]="{'open': isOpen}" class="icon folder outline"></i>
+      <i [ngClass]="{'open': isOpen, 'outline': !isSelected()}" class="icon folder"></i>
       {{node?.content.name}}
     </div>
   </a>
