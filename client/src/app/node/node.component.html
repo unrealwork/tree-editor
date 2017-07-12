@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="node">
   <a (click)="onSelect(node)" class="item"
      [ngClass]="{'active': isSelected(), 'inactiveLink': isLoading}">
     <div>

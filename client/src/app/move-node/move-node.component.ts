@@ -15,16 +15,14 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
   @Output() featureChanged = new EventEmitter<string>();
   @Output() messageChanged = new EventEmitter<Message>();
 
-
   ngOnInit() {
   }
-
 
   move() {
     this.api.move(this.srcNode.node.id, this.destNode.node.id).then(
       result => {
-        this.srcNode.parentComponent.refresh();
-        this.srcNode.root().find(this.destNode.node).refresh();
+        console.log(result);
+        this.srcNode.root().refresh();
         this.close();
         const message = new Message('Node successfully moved!',
           `Node with name ${result.content.name} was moved to ${this.destNode.node.content.name}`,
@@ -33,6 +31,7 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
         this.messageChanged.emit(message);
       }
     ).catch(err => {
+      console.log(err);
       this.messageChanged.emit(this.messageFromError('', err));
     });
   }

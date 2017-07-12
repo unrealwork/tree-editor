@@ -175,7 +175,7 @@ public class NodeService {
     destNode.add(srcNode);
     srcNode.setParent(destNode);
     nodeRepository.save(destNode);
-    return srcNode;
+    return getOne(srcNode.getId());
   }
 
 

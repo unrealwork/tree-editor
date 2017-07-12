@@ -58,9 +58,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
             nodes => {
               this.node.children = nodes;
               if (this.childrenComponents) {
-                this.childrenComponents.forEach(c => {
-                  c.refresh();
-                });
+                const children: Array<NodeComponent> = (this.childrenComponents) ?
+                  this.childrenComponents.toArray() : [];
+                for (const child of  children) {
+                  const res = child.find(node);
+                  child.refresh();
+                }
               }
             }
           );
