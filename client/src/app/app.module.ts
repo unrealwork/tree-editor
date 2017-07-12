@@ -14,6 +14,7 @@ import {RemoveNodeComponent} from './remove-node/remove-node.component';
 import {ActionPopupComponent} from './action-popup/action-popup.component';
 import {NodePathComponent} from './node-path/node-path.component';
 import {MoveNodeComponent} from './move-node/move-node.component';
+import {PopupMessageComponent} from './popup-message/popup-message.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MoveNodeComponent} from './move-node/move-node.component';
     RemoveNodeComponent,
     ActionPopupComponent,
     NodePathComponent,
-    MoveNodeComponent
+    MoveNodeComponent,
+    PopupMessageComponent
   ],
   imports: [
     BrowserModule,

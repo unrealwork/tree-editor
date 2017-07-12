@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ApiService} from './services/api.service';
-import {Node} from './models/node.model';
 import {NodeComponent} from './node/node.component';
 import {NodePathComponent} from './node-path/node-path.component';
+import {Message} from './models/message.model';
+import {MessageType} from './models/message-type.model';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +12,18 @@ import {NodePathComponent} from './node-path/node-path.component';
   providers: [ApiService]
 })
 export class AppComponent implements AfterViewInit {
-
-  @ViewChild('main') nodeComponent = null;
+  @ViewChild('main') nodeComponent: NodeComponent = null;
   @ViewChild('dest') destinationComponent = null;
   @ViewChild(NodePathComponent) pathComponent;
-
   loadedFeature = '';
+  message: Message = new Message('Welcome',
+    'To modify component you should select node in TREE section and then choose action in menu',
+    MessageType.NORMAL);
 
 
   onNavigate(feature: string) {
     console.log(`Switch to ${feature} mode`);
-    if (this.loadedFeature === 'edit' && feature === '') {
+    if (this.loadedFeature === 'edit' && feature !== '') {
       this.pathComponent.refresh();
     }
     this.loadedFeature = feature;
@@ -36,8 +38,9 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  onAdd(node: Node) {
-    console.log(node);
+  onMessage(message: Message) {
+    console.log('a');
+    this.message = message;
   }
 
   isNodeSelected() {

@@ -1,5 +1,6 @@
 <div>
-  <a (click)="onSelect(node)" class="item" [ngClass]="{'active': isSelected()}">
+  <a (click)="onSelect(node)" class="item"
+     [ngClass]="{'active': isSelected(), 'inactiveLink': isLoading}">
     <div>
       <i class="icon empty" *ngFor="let item of node?.level | fill"></i>
       <i (click)="toggle()"

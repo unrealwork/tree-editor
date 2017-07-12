@@ -1,10 +1,10 @@
 <div class="ui labeled icon menu">
   <a class="item"><i class="icon"><h2>TE</h2></i></a>
-  <div *ngIf="isNodeSelected" class="ui right pointing labeled icon menu">
+  <div class="ui right pointing labeled icon menu">
     <div data-tooltip="Add child to your tree" data-position="bottom left">
       <a (click)="onSelect('add')"
          class="item"
-         [ngClass]="{'active': loadedFeature === 'add'}"
+         [ngClass]="{'active': loadedFeature === 'add', 'inactiveLink': !isNodeSelected}"
 
       >
         <i class="icon add"></i>
@@ -13,14 +13,16 @@
     </div>
     <div data-tooltip="Edit current node" data-position="bottom left">
 
-      <a (click)="onSelect('edit')" class="item" [ngClass]="{'active': loadedFeature === 'edit'}">
+      <a (click)="onSelect('edit')" class="item"
+         [ngClass]="{'active': loadedFeature === 'edit', 'inactiveLink': !isNodeSelected }">
         <i class="icon edit"></i>
         Edit
       </a>
     </div>
     <div data-tooltip="Move current node to another node" data-position="bottom left">
 
-      <a (click)="onSelect('move')" class="item" [ngClass]="{'active': loadedFeature === 'move'}">
+      <a (click)="onSelect('move')" class="item"
+         [ngClass]="{'active': loadedFeature === 'move', 'inactiveLink': !isNodeSelected}">
         <i class="icon move"></i>
         Move
       </a>

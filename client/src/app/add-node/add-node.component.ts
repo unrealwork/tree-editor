@@ -2,6 +2,8 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@an
 import {Description} from '../models/description.model';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {NodeComponent} from '../node/node.component';
+import {Message} from '../models/message.model';
+import {MessageType} from '../models/message-type.model';
 
 @Component({
   selector: 'app-add-node',
@@ -10,6 +12,7 @@ import {NodeComponent} from '../node/node.component';
 })
 export class AddNodeComponent extends ActionPopupComponent implements OnInit, AfterViewInit {
   @Output() featureChanged = new EventEmitter<string>();
+  @Output() messageChanged = new EventEmitter<Message>();
   description: Description = new Description('');
   @Input() nodeComponent: NodeComponent;
 
@@ -32,6 +35,14 @@ export class AddNodeComponent extends ActionPopupComponent implements OnInit, Af
       }
       this.close();
       this.description = new Description('');
+
+      const message = new Message('Node successfully created!',
+        `Node ${node.content.name} was created`,
+        MessageType.POSITIVE);
+      message.timeout = 3000;
+      this.messageChanged.emit(message);
+    }).catch(err => {
+      this.messageChanged.emit(this.messageFromError('', err));
     });
   }
 

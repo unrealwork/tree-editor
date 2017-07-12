@@ -1,0 +1,8 @@
+<div *ngIf="isShowed" class="ui message" [ngClass]="{'warning': message.type == 'warning',
+  'negative': message.type == 'negative', 'positive': message.type == 'positive'}">
+  <i (click)="close()" class="close icon"></i>
+  <div class="header">
+    {{message.header}}
+  </div>
+  <p>{{message.content}}.</p>
+</div>

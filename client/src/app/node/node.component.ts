@@ -44,6 +44,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   refresh() {
     this.isLoading = true;
+    this.childrenComponents = null;
     setTimeout(() => {
       this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
       this.loadedNode.then(node => {
@@ -121,7 +122,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
     if (this.node.id === node.id) {
       return this;
     } else {
-      const children: Array<NodeComponent> = this.childrenComponents.toArray();
+      const children: Array<NodeComponent> = (this.childrenComponents) ?
+        this.childrenComponents.toArray() : [];
       for (const child of  children) {
         const res = child.find(node);
         if (res) {

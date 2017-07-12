@@ -4,6 +4,8 @@ import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {Node} from '../models/node.model';
 import {NodeComponent} from '../node/node.component';
 import {NodePathComponent} from '../node-path/node-path.component';
+import {Message} from '../models/message.model';
+import {MessageType} from '../models/message-type.model';
 
 @Component({
   selector: 'app-edit-node',
@@ -16,6 +18,7 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
   description: Description = new Description('');
   @Input() nodeComponent: NodeComponent;
   @Input() pathComponent: NodePathComponent;
+  @Output() messageChanged = new EventEmitter<Message>();
 
   ngOnInit(): void {
   }
@@ -29,9 +32,16 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
     this.api.update(this.nodeComponent.node.id, desc).then(node => {
       this.nodeComponent.node.content = node.content;
       this.pathComponent.refresh();
+      this.close();
+      this.description = new Description('');
+      const message = new Message('Node name successfuly changed!',
+        `Node has new name ${node.content.name}`,
+        MessageType.POSITIVE);
+      message.timeout = 3000;
+      this.messageChanged.emit(message);
+    }).catch(err => {
+      this.messageChanged.emit(this.messageFromError('', err));
     });
-    this.description = new Description('');
-    this.close();
   }
 
   onSubmit() {

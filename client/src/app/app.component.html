@@ -1,10 +1,14 @@
 <div class="ui container">
   <app-header [loadedFeature]="loadedFeature"
               (featureSelected)="onNavigate($event)"
-              [isNodeSelected]="isNodeSelected()"
+              [isNodeSelected]="isNodeSelected() && !nodeComponent.isLoading"
               [destNode]="destinationComponent"
   >
   </app-header>
+  <p></p>
+  <app-popup-message [message]="message">
+
+  </app-popup-message>
   <div class="ui horizontal divider">
     PATH
   </div>
@@ -17,6 +21,7 @@
     >
       <app-add-node [nodeComponent]="nodeComponent"
                     (featureChanged)="onNavigate($event)"
+                    (messageChanged)="onMessage($event)"
                     (addedNode)="onNavigateNode($event)"></app-add-node>
     </app-action-popup>
 
@@ -27,7 +32,9 @@
     >
       <app-edit-node [nodeComponent]="nodeComponent"
                      [pathComponent]="pathComponent"
-                     (featureChanged)="onNavigate($event)"></app-edit-node>
+                     (featureChanged)="onNavigate($event)"
+                     (messageChanged)="onMessage($event)"
+      ></app-edit-node>
     </app-action-popup>
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Are you sure you want remove this node?'"
@@ -35,15 +42,21 @@
                       [nodeComponent]="nodeComponent"
     >
       <app-remove-node
-        [nodeComponent]="nodeComponent" (featureChanged)="onNavigate($event)"></app-remove-node>
+        [nodeComponent]="nodeComponent"
+        (featureChanged)="onNavigate($event)"
+        (messageChanged)="onMessage($event)">
+      </app-remove-node>
     </app-action-popup>
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Select destination node'"
                       *ngIf="loadedFeature === 'move'"
                       [nodeComponent]="nodeComponent"
     >
-      <app-move-node [srcNode]="nodeComponent" [destNode]="destinationComponent"
-                     (featureChanged)="onNavigate($event)"></app-move-node>
+      <app-move-node [srcNode]="nodeComponent"
+                     [destNode]="destinationComponent"
+                     (featureChanged)="onNavigate($event)"
+                     (messageChanged)="onMessage($event)"
+      ></app-move-node>
     </app-action-popup>
   </div>
   <div class="ui horizontal divider">
