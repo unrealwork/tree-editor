@@ -22,6 +22,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Input() node: Node;
   @Input() selectedNodeComponent: NodeComponent;
   self = this;
+  isLoading = true;
   loadedNode: Promise<Node>;
   isOpen = false;
   @Input() parentComponent: NodeComponent;
@@ -31,10 +32,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.refresh();
   }
 
   ngAfterViewInit(): void {
+    this.refresh();
   }
 
   isSelected() {
@@ -42,28 +43,33 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
-    this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
-    this.loadedNode.then(node => {
-      const previousNode = this.node;
-        this.node = node;
-      if (previousNode && (previousNode.terminal !== this.node.terminal)) {
-        this.isOpen = true;
-      }
-        this.api.children(this.node.id).then(
-          nodes => {
-            this.node.children = nodes;
-            if (this.childrenComponents) {
-              this.childrenComponents.forEach(c => {
-                c.refresh();
-              });
-            }
+    this.isLoading = true;
+    setTimeout(() => {
+      this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
+      this.loadedNode.then(node => {
+          const previousNode = this.node;
+          this.node = node;
+          if (previousNode && (previousNode.terminal !== this.node.terminal)) {
+            this.isOpen = true;
           }
-        );
-      }
-    ).catch(err => {
-      this.selected.emit(this.parentComponent);
-      this.parentComponent.refresh();
-    });
+          this.isLoading = false;
+          this.api.children(this.node.id).then(
+            nodes => {
+              this.node.children = nodes;
+              if (this.childrenComponents) {
+                this.childrenComponents.forEach(c => {
+                  c.refresh();
+                });
+              }
+            }
+          );
+        }
+      ).catch(err => {
+        this.selected.emit(this.parentComponent);
+        this.parentComponent.refresh();
+      });
+    }, 2000);
+
   }
 
   collapse() {
@@ -95,7 +101,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
         if (!node.terminal) {
           console.log('what?');
           this.isOpen = !this.isOpen;
-          this.refresh();
+          if (this.isOpen) {
+            this.refresh();
+          }
         }
       }
     );

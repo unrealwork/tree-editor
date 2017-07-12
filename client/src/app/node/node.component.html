@@ -1,12 +1,14 @@
-<div *ngIf="node != null">
+<div>
   <a (click)="onSelect(node)" class="item" [ngClass]="{'active': isSelected()}">
     <div>
       <i class="icon empty" *ngFor="let item of node?.level | fill"></i>
       <i (click)="toggle()"
          [ngClass]="{'down': isOpen, 'right': !isOpen, 'caret': !node?.terminal}"
          class="icon"></i>
-      <i [ngClass]="{'open': isOpen, 'outline': !isSelected()}" class="icon folder"></i>
-      {{node?.content.name}}
+      <div *ngIf="isLoading" class="ui mini active inline loader"></div>
+      <i *ngIf="!isLoading" [ngClass]="{'open': isOpen, 'outline': !isSelected()}"
+         class="icon folder"></i>
+      <ng-container *ngIf="!isLoading">{{node?.content.name}}</ng-container>
     </div>
   </a>
   <ng-container *ngIf="isOpen">
