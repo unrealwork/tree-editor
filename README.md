@@ -1,5 +1,5 @@
 <p align="center">
-  <img title="Redash" src='logo.png' height="200px"/>
+  <img title="Redash" src='logo.png' height="100px"/>
 </p>
 <p align="center">
   <strong><i>Tree editor</i></strong>
