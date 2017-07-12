@@ -1,5 +1,5 @@
 <p align="center">
-  <img title="Redash" src='http://cdn.onlinewebfonts.com/svg/download_475524.png' height="200px"/>
+  <img title="Redash" src='resources/logo.png' height="200px"/>
 </p>
 <p align="center">
   <strong><i>Tree editor</i></strong>
