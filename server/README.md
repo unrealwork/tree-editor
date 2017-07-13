@@ -1,4 +1,4 @@
-#Tree editor RESTful service
+# Tree editor RESTful service
 
 The apllication represents a simple web server with following API.
 
