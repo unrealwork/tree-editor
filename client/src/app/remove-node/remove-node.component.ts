@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Node} from '../models/node.model';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {NodeComponent} from '../node/node.component';
 import {Message} from 'app/models/message.model';
 import {MessageType} from '../models/message-type.model';
+import {ApiService} from '../services/api.service';
 
 
 @Component({
@@ -11,18 +11,22 @@ import {MessageType} from '../models/message-type.model';
   templateUrl: './remove-node.component.html',
   styleUrls: ['./remove-node.component.css']
 })
-export class RemoveNodeComponent extends ActionPopupComponent implements OnInit {
+export class RemoveNodeComponent implements OnInit {
   @Output() featureChanged = new EventEmitter<string>();
-  @Input() nodeComponent: NodeComponent;
   @Output() messageChanged = new EventEmitter<Message>();
-  @Output() addedNode = new EventEmitter<Node>();
+  @Input() nodeComponent: NodeComponent;
+  @Input() header;
+  @ViewChild(ActionPopupComponent) popup;
+
+  constructor(private api: ApiService) {
+  }
 
   ngOnInit(): void {
   }
 
   remove() {
     this.api.remove(this.nodeComponent.node.id).then(node => {
-      this.close();
+      this.popup.close();
       this.nodeComponent.refresh();
       const message = new Message('Node successfully removed!',
         `Node with name ${node.content.name} was removed`,
@@ -30,7 +34,7 @@ export class RemoveNodeComponent extends ActionPopupComponent implements OnInit 
       message.timeout = 3000;
       this.messageChanged.emit(message);
     }).catch(err => {
-      this.messageChanged.emit(this.messageFromError('', err));
+      this.messageChanged.emit(Message.fromError(err));
     });
   }
 

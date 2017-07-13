@@ -1,6 +1,10 @@
-<div class="ui container right">
-  <div (click)="remove()" class="ui button submit">
-    Remove
+<app-action-popup [(featureChanged)]="featureChanged"
+                  (messageChanged)="messageChanged"
+                  [header]="header"
+>
+  <div class="ui container right">
+    <div (click)="remove()" class="ui button submit">
+      Remove
+    </div>
   </div>
-</div>
-
+</app-action-popup>

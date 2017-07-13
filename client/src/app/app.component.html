@@ -14,32 +14,31 @@
   </div>
   <app-node-path [node]="nodeComponent"></app-node-path>
   <div>
-    <app-add-node [nodeComponent]="nodeComponent"
-                  [header]="'Add child'"
-                  *ngIf="loadedFeature === 'add'"
-                  (featureChanged)="onNavigate($event)"
-                  (messageChanged)="onMessage($event)">
+    <app-add-node
+      [nodeComponent]="nodeComponent"
+      [header]="'Add child'"
+      *ngIf="loadedFeature === 'add'"
+      (featureChanged)="onNavigate($event)"
+      (messageChanged)="onMessage($event)">
     </app-add-node>
 
-    <app-edit-node [nodeComponent]="nodeComponent"
-                   [header]="'Change name of node'"
-                   *ngIf="loadedFeature === 'edit'"
-                   (featureChanged)="onNavigate($event)"
-                   (messageChanged)="onMessage($event)">
+    <app-edit-node
+      [nodeComponent]="nodeComponent"
+      [header]="'Change name of node'"
+      *ngIf="loadedFeature === 'edit'"
+      (featureChanged)="onNavigate($event)"
+      (messageChanged)="onMessage($event)">
     </app-edit-node>
 
-    <app-action-popup (featureChanged)="onNavigate($event)"
-                      [header]="'Are you sure you want remove this node?'"
-                      *ngIf="loadedFeature === 'remove'"
-                      [nodeComponent]="nodeComponent"
-                      [pathComponent]="pathComponent"
-    >
-      <app-remove-node
-        [nodeComponent]="nodeComponent"
-        (featureChanged)="onNavigate($event)"
-        (messageChanged)="onMessage($event)">
-      </app-remove-node>
-    </app-action-popup>
+
+    <app-remove-node
+      [nodeComponent]="nodeComponent"
+      [header]="'Are you sure you want remove this node?'"
+      *ngIf="loadedFeature === 'remove'"
+      (featureChanged)="onNavigate($event)"
+      (messageChanged)="onMessage($event)">
+    </app-remove-node>
+
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Select destination node'"
                       *ngIf="loadedFeature === 'move'"
