@@ -24,6 +24,7 @@
 
     <app-edit-node
       [nodeComponent]="nodeComponent"
+      [pathComponent]="pathComponent"
       [header]="'Change name of node'"
       *ngIf="loadedFeature === 'edit'"
       (featureChanged)="onNavigate($event)"
