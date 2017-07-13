@@ -1,38 +1,34 @@
-<div class="ui labeled icon menu">
-  <a class="item"><i class="icon"><h2>TE</h2></i></a>
-  <div class="ui right pointing labeled icon menu">
-    <div data-tooltip="Add child to your tree" data-position="bottom left">
+<div class="ui compact fluid menu">
+  <a class="item"><strong>TE</strong></a>
+  <div class="ui right compact menu">
+    <div data-tooltip="Add child to your tree" data-position="bottom right">
       <a (click)="onSelect('add')"
          class="item"
          [ngClass]="{'active': loadedFeature === 'add', 'inactiveLink': !isNodeSelected}"
 
       >
         <i class="icon add"></i>
-        Add
       </a>
     </div>
-    <div data-tooltip="Edit current node" data-position="bottom left">
+    <div data-tooltip="Edit current node" data-position="bottom right">
 
       <a (click)="onSelect('edit')" class="item"
          [ngClass]="{'active': loadedFeature === 'edit', 'inactiveLink': !isNodeSelected }">
         <i class="icon edit"></i>
-        Edit
       </a>
     </div>
-    <div data-tooltip="Move current node to another node" data-position="bottom left">
+    <div data-tooltip="Move current node to another node" data-position="bottom right">
 
       <a (click)="onSelect('move')" class="item"
          [ngClass]="{'active': loadedFeature === 'move', 'inactiveLink': !isNodeSelected}">
         <i class="icon move"></i>
-        Move
       </a>
     </div>
-    <div data-tooltip="Remove child from your tree" data-position="bottom left">
+    <div data-tooltip="Remove child from your tree" data-position="bottom right">
 
       <a (click)="onSelect('remove')" class="item"
          [ngClass]="{'active': loadedFeature === 'remove'}">
         <i class="icon remove"></i>
-        Remove
       </a>
     </div>
 
