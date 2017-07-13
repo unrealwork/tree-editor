@@ -16,7 +16,7 @@
 
 ## Description
 Simple client-server application for editing tree structure that stores in database.
-Server represents RESTFul service with following API. Client is single page application.
+Server represents RESTFul service with [following API](server/README.md#api). Client is single page application.
 
 ## Demo
 Latest stable version of application available here: https://tree-editor.herokuapp.com/
