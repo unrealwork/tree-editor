@@ -30,7 +30,6 @@
       (messageChanged)="onMessage($event)">
     </app-edit-node>
 
-
     <app-remove-node
       [nodeComponent]="nodeComponent"
       [header]="'Are you sure you want remove this node?'"
@@ -39,17 +38,14 @@
       (messageChanged)="onMessage($event)">
     </app-remove-node>
 
-    <app-action-popup (featureChanged)="onNavigate($event)"
-                      [header]="'Select destination node'"
-                      *ngIf="loadedFeature === 'move'"
-                      [nodeComponent]="nodeComponent"
-    >
-      <app-move-node [srcNode]="nodeComponent"
-                     [destNode]="destinationComponent"
-                     (featureChanged)="onNavigate($event)"
-                     (messageChanged)="onMessage($event)"
-      ></app-move-node>
-    </app-action-popup>
+    <app-move-node
+      [srcNode]="nodeComponent"
+      [destNode]="destinationComponent"
+      [header]="'Select destination node'"
+      *ngIf="loadedFeature === 'move'"
+      (featureChanged)="onNavigate($event)"
+      (messageChanged)="onMessage($event)">
+    </app-move-node>
   </div>
   <div class="ui horizontal divider">
     TREE

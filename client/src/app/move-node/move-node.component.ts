@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NodeComponent} from '../node/node.component';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {Message} from '../models/message.model';
@@ -14,6 +14,8 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
   @Input() destNode: NodeComponent;
   @Output() featureChanged = new EventEmitter<string>();
   @Output() messageChanged = new EventEmitter<Message>();
+  @Input() header;
+  @ViewChild(ActionPopupComponent) popup;
 
   ngOnInit() {
   }
@@ -23,7 +25,7 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
       result => {
         console.log(result);
         this.srcNode.root().refresh();
-        this.close();
+        this.popup.close();
         const message = new Message('Node successfully moved!',
           `Node with name ${result.content.name} was moved to ${this.destNode.node.content.name}`,
           MessageType.POSITIVE);
@@ -32,7 +34,7 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
       }
     ).catch(err => {
       console.log(err);
-      this.messageChanged.emit(this.messageFromError('', err));
+      this.messageChanged.emit(Message.fromError(err));
     });
   }
 }

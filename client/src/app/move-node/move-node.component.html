@@ -1,7 +1,12 @@
-<div class="container">
-  <app-node-path [node]="destNode"></app-node-path>
-  <p></p>
-  <div (click)="move()" class="ui submit blue button" ngClass="{}">
-    Move
+<app-action-popup [(featureChanged)]="featureChanged"
+                  (messageChanged)="messageChanged"
+                  [header]="header"
+>
+  <div class="container">
+    <app-node-path [node]="destNode"></app-node-path>
+    <p></p>
+    <div (click)="move()" class="ui submit blue button" ngClass="{}">
+      Move
+    </div>
   </div>
-</div>
+</app-action-popup>
