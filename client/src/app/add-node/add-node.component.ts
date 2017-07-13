@@ -1,22 +1,37 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {Description} from '../models/description.model';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {NodeComponent} from '../node/node.component';
 import {Message} from '../models/message.model';
 import {MessageType} from '../models/message-type.model';
+import {ApiService} from '../services/api.service';
 
 @Component({
   selector: 'app-add-node',
   templateUrl: './add-node.component.html',
   styleUrls: ['./add-node.component.css']
 })
-export class AddNodeComponent extends ActionPopupComponent implements OnInit, AfterViewInit {
+export class AddNodeComponent implements OnInit, AfterViewInit {
   @Output() featureChanged = new EventEmitter<string>();
   @Output() messageChanged = new EventEmitter<Message>();
-  description: Description = new Description('');
   @Input() nodeComponent: NodeComponent;
+  @Input() header;
+  @ViewChild(ActionPopupComponent) popup;
+  description: Description = new Description('');
+
 
   ngOnInit(): void {
+  }
+
+  constructor(private api: ApiService) {
   }
 
   ngAfterViewInit(): void {
@@ -33,7 +48,7 @@ export class AddNodeComponent extends ActionPopupComponent implements OnInit, Af
       if (!this.nodeComponent.isOpen) {
         this.nodeComponent.isOpen = true;
       }
-      this.close();
+      this.popup.close();
       this.description = new Description('');
 
       const message = new Message('Node successfully created!',
@@ -42,7 +57,7 @@ export class AddNodeComponent extends ActionPopupComponent implements OnInit, Af
       message.timeout = 3000;
       this.messageChanged.emit(message);
     }).catch(err => {
-      this.messageChanged.emit(this.messageFromError('', err));
+      this.messageChanged.emit(Message.fromError(err));
     });
   }
 

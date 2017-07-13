@@ -14,22 +14,17 @@
   </div>
   <app-node-path [node]="nodeComponent"></app-node-path>
   <div>
-    <app-action-popup (featureChanged)="onNavigate($event)"
-                      [header]="'Add child'"
-                      *ngIf="loadedFeature === 'add'"
-                      [nodeComponent]="nodeComponent"
-    >
-      <app-add-node [nodeComponent]="nodeComponent"
-                    (featureChanged)="onNavigate($event)"
-                    (messageChanged)="onMessage($event)"
-                    (addedNode)="onNavigateNode($event)"></app-add-node>
-    </app-action-popup>
+    <app-add-node [nodeComponent]="nodeComponent"
+                  [header]="'Add child'"
+                  *ngIf="loadedFeature === 'add'"
+                  (featureChanged)="onNavigate($event)"
+                  (messageChanged)="onMessage($event)">
+    </app-add-node>
 
     <app-action-popup (featureChanged)="onNavigate($event)"
                       [header]="'Change name of node'"
                       *ngIf="loadedFeature === 'edit'"
-                      [nodeComponent]="nodeComponent"
-    >
+                      [nodeComponent]="nodeComponent">
       <app-edit-node [nodeComponent]="nodeComponent"
                      [pathComponent]="pathComponent"
                      (featureChanged)="onNavigate($event)"

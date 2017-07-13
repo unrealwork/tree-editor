@@ -40,7 +40,7 @@ export class EditNodeComponent extends ActionPopupComponent implements OnInit, A
       message.timeout = 3000;
       this.messageChanged.emit(message);
     }).catch(err => {
-      this.messageChanged.emit(this.messageFromError('', err));
+      this.messageChanged.emit(Message.fromError(err));
     });
   }
 

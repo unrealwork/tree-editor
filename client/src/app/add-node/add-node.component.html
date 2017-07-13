@@ -1,18 +1,20 @@
-<form class="ui form" #f="ngForm" (ngSubmit)="onSubmit()">
-  <div class="ui fluid action input">
-    <input type="text"
-           placeholder="Name"
-           name="name"
-           [(ngModel)]="description.name"
-           #name="ngModel"
-           required
-    >
-    <div (click)="addChild(name.value)" class="ui blue submit button"
-         [ngClass]="{'disabled': !f.form.valid}">Add
+<app-action-popup [(featureChanged)]="featureChanged"
+                  (messageChanged)="messageChanged"
+                  [header]="header"
+>
+  <form class="ui form" #f="ngForm" (ngSubmit)="onSubmit()">
+    <div class="ui fluid action input">
+      <input type="text"
+             placeholder="Name"
+             name="name"
+             [(ngModel)]="description.name"
+             #name="ngModel"
+             required
+      >
+      <div (click)="addChild(name.value)" class="ui blue submit button"
+           [ngClass]="{'disabled': !f.form.valid}">Add
+      </div>
     </div>
-  </div>
-</form>
-
-
-
+  </form>
+</app-action-popup>
 
