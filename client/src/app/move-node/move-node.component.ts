@@ -32,7 +32,6 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit, A
   move() {
     this.api.move(this.srcNode.node.id, this.destNode.node.id).then(
       result => {
-        console.log(result);
         this.srcNode.root().refresh();
         this.popup.close();
         const message = new Message('Node successfully moved!',
@@ -42,7 +41,6 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit, A
         this.messageChanged.emit(message);
       }
     ).catch(err => {
-      console.log(err);
       this.messageChanged.emit(Message.fromError(err));
     });
   }

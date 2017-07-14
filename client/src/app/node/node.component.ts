@@ -81,7 +81,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   collapseAll() {
-    console.log(`${JSON.stringify(this.node.content.name)} has parent`);
     if (this.parentComponent) {
       this.parentComponent.collapse();
     } else {
@@ -92,7 +91,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   onSelect(node: NodeComponent) {
     this.selected.emit(this);
     this.selectedNodeComponent = this;
-    console.log();
   }
 
   onNavigateNode(node: NodeComponent) {
@@ -103,7 +101,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.loadedNode.then(
       node => {
         if (!node.terminal) {
-          console.log('what?');
           this.isOpen = !this.isOpen;
           if (this.isOpen) {
             this.refresh();

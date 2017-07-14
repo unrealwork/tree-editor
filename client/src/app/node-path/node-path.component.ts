@@ -36,7 +36,6 @@ export class NodePathComponent {
 
   // TODO: use it only with two way data-binding
   refresh() {
-    console.log('here');
     if (this.node && this.node.node && this.node.node.id) {
       this.api.path(this.node.node.id).then(
         path => {

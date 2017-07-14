@@ -33,7 +33,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   onMessage(message: Message) {
-    console.log('a');
     this.message = message;
   }
 

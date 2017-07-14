@@ -19,7 +19,6 @@ export class ActionPopupComponent implements OnInit {
   }
 
   close() {
-    console.log('changed');
     this.featureChanged.emit('');
   }
 
