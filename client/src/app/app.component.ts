@@ -29,9 +29,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   onNavigateNode(node: NodeComponent) {
-    if (this.loadedFeature !== 'move') {
-      this.nodeComponent = node;
-    }
+    this.nodeComponent = node;
   }
 
   onMessage(message: Message) {
