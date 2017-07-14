@@ -13,7 +13,6 @@ import {MessageType} from './models/message-type.model';
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('main') nodeComponent: NodeComponent = null;
-  @ViewChild('dest') destinationComponent = null;
   @ViewChild(NodePathComponent) pathComponent;
   loadedFeature = '';
   message: Message = new Message('Welcome',
@@ -27,14 +26,11 @@ export class AppComponent implements AfterViewInit {
       this.pathComponent.refresh();
     }
     this.loadedFeature = feature;
-    this.destinationComponent.collapseAll();
   }
 
   onNavigateNode(node: NodeComponent) {
     if (this.loadedFeature !== 'move') {
       this.nodeComponent = node;
-    } else {
-      this.destinationComponent = node;
     }
   }
 

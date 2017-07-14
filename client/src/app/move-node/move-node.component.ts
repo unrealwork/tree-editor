@@ -1,4 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {NodeComponent} from '../node/node.component';
 import {ActionPopupComponent} from '../action-popup/action-popup.component';
 import {Message} from '../models/message.model';
@@ -9,15 +17,16 @@ import {MessageType} from '../models/message-type.model';
   templateUrl: './move-node.component.html',
   styleUrls: ['./move-node.component.css']
 })
-export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
+export class MoveNodeComponent extends ActionPopupComponent implements OnInit, AfterViewInit {
   @Input() srcNode: NodeComponent;
-  @Input() destNode: NodeComponent;
+  @ViewChild('dest') destNode = null;
   @Output() featureChanged = new EventEmitter<string>();
   @Output() messageChanged = new EventEmitter<Message>();
   @Input() header;
   @ViewChild(ActionPopupComponent) popup;
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    // this.destNode.collapseAll();
   }
 
   move() {
@@ -36,5 +45,9 @@ export class MoveNodeComponent extends ActionPopupComponent implements OnInit {
       console.log(err);
       this.messageChanged.emit(Message.fromError(err));
     });
+  }
+
+  onNavigateNode(node: NodeComponent) {
+    this.destNode = node;
   }
 }

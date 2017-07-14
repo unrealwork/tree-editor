@@ -2,7 +2,6 @@
   <app-header [loadedFeature]="loadedFeature"
               (featureSelected)="onNavigate($event)"
               [isNodeSelected]="isNodeSelected() && !nodeComponent.isLoading"
-              [destNode]="destinationComponent"
   >
   </app-header>
   <p></p>
@@ -41,27 +40,22 @@
 
     <app-move-node
       [srcNode]="nodeComponent"
-      [destNode]="destinationComponent"
       [header]="'Select destination node'"
       *ngIf="loadedFeature === 'move'"
       (featureChanged)="onNavigate($event)"
       (messageChanged)="onMessage($event)">
     </app-move-node>
   </div>
-  <div class="ui horizontal divider">
-    TREE
+  <div [ngClass]="{'hidden': loadedFeature === 'move'}">
+    <div class="ui horizontal divider">
+      TREE
+    </div>
+    <div class="ui vertical menu fluid">
+      <app-node (selected)="onNavigateNode($event)"
+                [selectedNodeComponent]="nodeComponent"
+                #main
+      ></app-node>
+    </div>
   </div>
-  <div class="ui vertical menu fluid">
-    <app-node (selected)="onNavigateNode($event)"
-              [selectedNodeComponent]="nodeComponent"
-              [ngClass]="{'hidden': loadedFeature === 'move'}"
-              #main
-    ></app-node>
 
-    <app-node (selected)="onNavigateNode($event)"
-              [selectedNodeComponent]="destinationComponent"
-              [ngClass]="{'hidden': loadedFeature !== 'move'}"
-              #dest
-    ></app-node>
-  </div>
 </div>
