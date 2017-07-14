@@ -22,7 +22,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Input() node: Node;
   @Input() selectedNodeComponent: NodeComponent;
   self = this;
-  isLoading = true;
+  isLoading = false;
   loadedNode: Promise<Node>;
   isOpen = false;
   @Input() parentComponent: NodeComponent;
@@ -42,38 +42,36 @@ export class NodeComponent implements OnInit, AfterViewInit {
     return this.selectedNodeComponent && this.selectedNodeComponent.node && this.selectedNodeComponent.node.id === this.node.id;
   }
 
-  refresh() {
-    this.isLoading = true;
-    this.childrenComponents = null;
-    setTimeout(() => {
-      this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
-      this.loadedNode.then(node => {
-          const previousNode = this.node;
-          this.node = node;
-          if (previousNode && (previousNode.terminal !== this.node.terminal)) {
-            this.isOpen = true;
-          }
-          this.isLoading = false;
-          this.api.children(this.node.id).then(
-            nodes => {
-              this.node.children = nodes;
-              if (this.childrenComponents) {
-                const children: Array<NodeComponent> = (this.childrenComponents) ?
-                  this.childrenComponents.toArray() : [];
-                for (const child of  children) {
-                  const res = child.find(node);
-                  // child.refresh();
-                }
+  refresh(cb?: () => any) {
+    this.loadedNode = (this.node) ? this.api.get(this.node.id) : this.api.root();
+    this.loadedNode.then(node => {
+        const previousNode = this.node;
+        this.node = node;
+        if (previousNode && (previousNode.terminal !== this.node.terminal)) {
+          this.isOpen = true;
+        }
+        this.isLoading = false;
+        this.api.children(this.node.id).then(
+          nodes => {
+            if (cb) {
+              cb();
+            }
+            this.node.children = nodes;
+            if (this.childrenComponents) {
+              const children: Array<NodeComponent> = (this.childrenComponents) ?
+                this.childrenComponents.toArray() : [];
+              for (const child of  children) {
+                const res = child.find(node);
+                // child.refresh();
               }
             }
-          );
-        }
-      ).catch(err => {
-        this.selected.emit(this.parentComponent);
-        this.parentComponent.refresh();
-      });
-    }, 2000);
-
+          }
+        );
+      }
+    ).catch(err => {
+      this.selected.emit(this.parentComponent);
+      this.parentComponent.refresh();
+    });
   }
 
   collapse() {
@@ -101,9 +99,16 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.loadedNode.then(
       node => {
         if (!node.terminal) {
-          this.isOpen = !this.isOpen;
-          if (this.isOpen) {
-            this.refresh();
+          if (!this.isOpen) {
+            this.isLoading = true;
+            setTimeout(() => {
+              this.refresh(() => {
+                this.isLoading = false;
+                this.isOpen = true;
+              });
+            }, 2000);
+          } else {
+            this.isOpen = true;
           }
         }
       }
