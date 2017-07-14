@@ -108,7 +108,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
               });
             }, 2000);
           } else {
-            this.isOpen = true;
+            this.isOpen = false;
           }
         }
       }
